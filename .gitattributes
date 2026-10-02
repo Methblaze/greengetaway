@@ -1,0 +1,8 @@
+# Keep LF everywhere, so scripts/build-web.sh still runs under bash after a
+# checkout on Windows.
+* text=auto eol=lf
+
+# Store the built site byte for byte. Without this, core.autocrlf would
+# rewrite line endings in the exported bundles, and docs/2023/ could no
+# longer be compared byte for byte with the v2023-web tag.
+docs/** -text
