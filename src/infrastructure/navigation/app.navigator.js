@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
-import { Text, TouchableOpacity, View, Image, Platform } from "react-native";
+import { Text, TouchableOpacity, View, Platform } from "react-native";
 import { Feather, Ionicons   } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import { colors, fonts, shadow } from "../../theme/tokens";
 
-import { Overview } from "../../screens/OverviewScreen";
+import { HomeScreen } from "../../screens/HomeScreen";
 import { Map } from "../../screens/map/Map";
 import { Leaderboard } from "../../screens/Leaderboard";
 import { ProfileScreen } from "../../screens/ProfileScreen";
@@ -24,14 +25,18 @@ const AddStack = () => (
   </Stack.Navigator>
 );
 
+// Filled icon when active, outline otherwise, so the active tab is marked by
+// shape as well as colour.
 const TAB_ICON = {
-  Overview: "eye-outline",
-  Map: "map-outline",
-  Leaderboard: "trophy-outline",
-  Profile: "person-outline"
+  Home: "home",
+  Map: "map",
+  Leaderboard: "trophy",
+  Profile: "person",
 };
 
-const tabBarIcon =(iconName) =>({ size, color }) =><Ionicons   name={iconName} size={size} color={color}/>;
+const tabBarIcon = (iconName) => ({ focused, size, color }) => (
+  <Ionicons name={focused ? iconName : `${iconName}-outline`} size={size} color={color} />
+);
 
 const createScreenOptions = ({ route }) => {
   const iconName = TAB_ICON[route.name];
@@ -39,21 +44,24 @@ const createScreenOptions = ({ route }) => {
 
   return {
     headerShown: true,
-    tabBarIcon: tabBarIcon(iconName),
-    tabBarActiveTintColor: "#688A6F",
-    tabBarInactiveTintColor: "black",
+    tabBarIcon: iconName ? tabBarIcon(iconName) : undefined,
+    // Tab labels: muted is 6.0:1 and primary 6.6:1 on the white bar.
+    tabBarActiveTintColor: colors.primary,
+    tabBarInactiveTintColor: colors.muted,
     tabBarStyle: {
-      backgroundColor: '#E9E9E9', // Set the background color of the bottom navigation bar
-    },
-    tabBarLabelStyle: {
-      fontSize: 10, // Set the font size for the label
-      fontWeight: route.state?.index === route.key ? 'bold' : 'normal', // Set font weight to bold when active
+      backgroundColor: colors.surface,
+      borderTopColor: colors.line,
+      height: Platform.OS === "web" ? 64 : undefined,
+      paddingTop: 6,
+      paddingBottom: Platform.OS === "web" ? 8 : undefined,
+      ...shadow,
     },
     tabBarLabel: ({ focused, color }) => (
-      <Text style={{ fontSize: 12, fontWeight: focused ? 'bold' : 'normal', color }}>
+      <Text style={{ fontSize: 12, lineHeight: 16, fontFamily: focused ? fonts.semibold : fonts.regular, color }}>
         {route.name}
       </Text>
     ),
+    // 2023 header, kept on the screens that have not been redesigned yet.
     headerRight: () => (
       <TouchableOpacity onPress={onLogout} style={{ marginRight: 10 }}>
         <Text style={{ color: "#2182BD" }}>Logout</Text>
@@ -61,7 +69,7 @@ const createScreenOptions = ({ route }) => {
     ),
     headerStyle: {
       backgroundColor: '#ebe2d9', // Set the background color of the header
-    
+
     },
     headerTintColor: '#688A6F', // Set the text color of the header buttons
     headerTitleStyle: {
@@ -74,20 +82,25 @@ const createScreenOptions = ({ route }) => {
 
 export const AppNavigator = () => (
   <Tab.Navigator screenOptions={createScreenOptions}>
-    <Tab.Screen name="Overview" component={Overview}/>
+    <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
     <Tab.Screen name="Map" component={Map} />
     <Tab.Screen name="Add" component={AddStack} options={{
-      tabBarIcon: ({ focused }) => (
+      tabBarAccessibilityLabel: "Add",
+      tabBarIcon: () => (
+        // Primary green with a white plus: 6.6:1, where the 2023 pink and
+        // white was 1.58:1.
         <View style={{
-          width: 55,
-          height: 55,
-          backgroundColor: '#FFBAD7',
-          borderRadius: 30,
+          width: 52,
+          height: 52,
+          backgroundColor: colors.primary,
+          borderRadius: 26,
+          borderWidth: 4,
+          borderColor: colors.surface,
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: Platform.OS == "android" ? 50 : 30
+          marginBottom: Platform.OS == "android" ? 40 : 24
         }}>
-          <Feather name="plus" size={35} color="white" />
+          <Feather name="plus" size={26} color={colors.onPrimary} />
         </View>
       )
     }} />
