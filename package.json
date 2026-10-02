@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/dm-sans": "^0.4.2",
     "@expo-google-fonts/lato": "^0.2.3",
     "@expo-google-fonts/oswald": "^0.2.3",
     "@expo-google-fonts/roboto": "^0.2.3",
@@ -24,6 +25,7 @@
     "expo": "~49.0.15",
     "expo-blur": "~12.4.1",
     "expo-camera": "~13.4.4",
+    "expo-font": "~11.4.0",
     "expo-google-fonts": "^0.0.0",
     "expo-location": "~16.1.0",
     "expo-media-library": "~15.4.1",
