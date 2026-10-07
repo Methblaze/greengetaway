@@ -1,111 +1,129 @@
-import React, {useState} from "react";
-import { StyleSheet, View, Image, Pressable, Alert, FlatList, Text, Modal } from "react-native";
-import LeaderboardAtrraction from "../components/leaderboard.component";
-import { BlurView } from 'expo-blur';
-import AttractionDetail from "../components/attractionDetail.component";
+// All 13 attractions ranked by eco score, grouped by band. The 2023 list
+// showed only the nine green places under "the most green activities", with
+// a vague "See details" link on each row. Here every row is one tap target,
+// and the low scorers stay visible, because knowing what to avoid helps too.
+import React, { useMemo, useState } from "react";
+import { View, Text, Pressable, SectionList, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { BAND_ORDER, RANKED } from "../data/attractions";
+import { colors, fonts, radius, space, type } from "../theme/tokens";
+import { ScoreBadge } from "../components/ui/ScoreBadge";
+import { AttractionImage } from "../components/ui/AttractionImage";
+import { AttractionSheet } from "../components/AttractionSheet";
 
+// Ties share a rank (1, 1, 3, ...), so equal scores are not shown as better
+// or worse than each other.
+const withRanks = (list) =>
+  list.map((a, i) => ({ ...a, rank: list.findIndex((b) => b.score === a.score) + 1 }));
 
-export const Leaderboard = () => {
-  const [attractionList, setattractionList] = useState([
-    { id: '1', name: 'Kastellet', score: 99, address: "Gl. Hovedvagt, Kastellet 1, 2100 København", image1: "https://media.lex.dk/media/148200/standard_compressed_scanpixId20200618-192745-4", image2:"https://media.lex.dk/media/148200/standard_compressed_scanpixId20200618-192745-4" },
-    { id: '2', name: 'Søerne', score: 99, address: "Øster Søgade, 1357 København", image1: "https://2.bp.blogspot.com/-shMUZ2HD4KE/Tx_hl0KfwkI/AAAAAAAAAR4/svYxIDciARA/s1600/IMG_0897.JPG", image2:"https://media-cdn.tripadvisor.com/media/photo-s/05/bf/34/72/amager-faelled.jpg"},
-    { id: '3', name: 'Bibliotekshaven', score: 98, address: "Proviantpassagen 1, 1218 København", image1: "https://files.guidedanmark.org/files/382/153466__MG_5033.jpg", image2:"https://migogkbh.dk/wp-content/uploads/2020/08/Bibliotekshaven.jpg"},
-    { id: '4', name: 'Amager Fællede', score: 98, address: "Artillerivej 73B, 2300 København", image1: "https://naturibyen.com/wp-content/uploads/2017/06/Koebenhavn_S_20120808_TH_0049_web.jpg", image2:"https://media-cdn.tripadvisor.com/media/photo-s/05/bf/34/72/amager-faelled.jpg"},
-    { id: '5', name: 'Havnestads Havnepark', score: 95, address: "Islands Brygge 22, 2300 København", image1: "https://upload.wikimedia.org/wikipedia/commons/b/bd/Islandsbrygge_waterfront.jpg", image2: "http://www.christianshavnernet.dk/Christianshavn/Bryggen/Islands_brygge/IMG_3910.jpg"},
-    { id: '6', name: 'Fælledparken', score: 94, address: "Trianglen, 2100 København", image1: "https://www.kk.dk/sites/default/files/styles/hero_desktop/public/2021-05/F%C3%A6lledparken%201920x552.jpg?itok=nhfv49eP", image2: "https://graenseforeningen.dk/sites/graenseforeningen.dk/files/styles/article_width_680/public/2021-08/F%C3%A6lledparken.nu_.jpg?itok=sSZx9ihY"},
-    { id: '7', name: 'The Little Mermaid', score: 93, address: "Langelinie, 2100 København Ø", image1: "https://usercontent.one/wp/www.rundtidanmark.dk/wp-content/uploads/2021/06/KMO_9949.jpg", image2: "https://a.cdn-hotels.com/gdcs/production103/d1630/806328d2-1333-4996-a51b-39d34be73bee.jpg"},
-    { id: '8', name: 'Vor Frue Kirke', score: 93, address: "Nørregade 8, 1165 København", image1: "https://media.lex.dk/media/148242/standard_scanpixId20190412-115426-4", image2: "https://media.lex.dk/media/148240/standard_compressed_scanpixId20200612-093400-2" },
-    { id: '9', name: 'Frederiks Kirke', score: 93, address: "Frederiksgade 4, 1265 København", image1: "https://a.cdn-hotels.com/gdcs/production179/d681/f13169e0-f7ac-4607-ad20-45c02f4ed486.jpg?impolicy=fcrop&w=800&h=533&q=medium", image2: "https://a.cdn-hotels.com/gdcs/production7/d60/ac6ebd76-fb78-4879-af62-9e7e7c9dfe4a.jpg"},
-  ]);
-  const [visible, setVisible] = React.useState(false);
-  const [selectedPointOfInterest, setSelectedPointOfInterest] = useState(null);
+const SECTIONS = (() => {
+  const ranked = withRanks(RANKED);
+  return BAND_ORDER.map((band) => ({ band, data: ranked.filter((a) => a.band === band.key) })).filter((s) => s.data.length);
+})();
 
-  const seeDetails = (item) => {
-    setSelectedPointOfInterest(item);
-    setVisible(true);
-  };
+const plural = (n) => (n === 1 ? "1 place" : `${n} places`);
 
-  const closeModal = () => {
-    setVisible(false);
-    setSelectedPointOfInterest(null);
+const SectionHeader = ({ band, count }) => (
+  <View style={styles.sectionHeader} accessibilityRole="header" accessible accessibilityLabel={`${band.label}, ${band.range}, ${plural(count)}`}>
+    <View style={[styles.pill, { backgroundColor: band.color }]}>
+      <Text style={styles.pillText}>{band.range}</Text>
+    </View>
+    <Text style={styles.sectionTitle}>{band.label}</Text>
+    <Text style={styles.sectionCount}>{plural(count)}</Text>
+  </View>
+);
+
+const Row = ({ item, onPress }) => (
+  <Pressable
+    onPress={onPress}
+    accessibilityRole="button"
+    accessibilityLabel={`Rank ${item.rank}, ${item.name}, ${item.area}, eco score ${item.score}`}
+    style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+  >
+    <Text style={styles.rank}>{item.rank}</Text>
+    <AttractionImage sources={item.images} style={styles.thumb} />
+    <View style={styles.rowText}>
+      <Text style={styles.name} numberOfLines={2}>
+        {item.name}
+      </Text>
+      <Text style={styles.area} numberOfLines={1}>
+        {item.area}
+      </Text>
+    </View>
+    <ScoreBadge score={item.score} size="sm" />
+    <Ionicons name="chevron-forward" size={20} color={colors.muted} style={styles.chevron} />
+  </Pressable>
+);
+
+export const Leaderboard = ({ navigation }) => {
+  const [selected, setSelected] = useState(null);
+  const sections = useMemo(() => SECTIONS, []);
+
+  const logVisit = (a) => {
+    setSelected(null);
+    navigation.navigate("Add", { screen: "Add", params: { attractionId: a.id } });
   };
 
   return (
-    
-    <View style={styles.container}>
-      {selectedPointOfInterest && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={visible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            closeModal();
-          }}>
-          <BlurView intensity={4} style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <AttractionDetail
-                name={selectedPointOfInterest.name}
-                score={selectedPointOfInterest.score}
-                address={selectedPointOfInterest.address}
-                image1={selectedPointOfInterest.image1}
-                image2={selectedPointOfInterest.image2}
-                goBack={closeModal}
-              />
-            </View>
-          </BlurView>
-        </Modal>
-      )}
-      <Text style={styles.header}>The most green activities you can do in the city</Text>
-      <FlatList
-            data={attractionList}
-            renderItem = {({item}) => (
-              <LeaderboardAtrraction
-                id={item.id}
-                name={item.name}
-                score={item.score}
-                seeDetails={() => seeDetails(item)}
-              />
-            )}
-            keyExtractor={item => item.id}
-        />
-    </View>
+    <SafeAreaView style={styles.safe} edges={["top"]}>
+      <SectionList
+        sections={sections}
+        keyExtractor={(item) => item.id}
+        stickySectionHeadersEnabled
+        contentContainerStyle={styles.content}
+        ListHeaderComponent={
+          <View style={styles.intro}>
+            <Text style={styles.title} accessibilityRole="header">
+              Ranked by eco score
+            </Text>
+            <Text style={styles.lede}>All 13 places, from the lowest impact to the highest.</Text>
+          </View>
+        }
+        renderSectionHeader={({ section }) => <SectionHeader band={section.band} count={section.data.length} />}
+        renderItem={({ item }) => <Row item={item} onPress={() => setSelected(item)} />}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        SectionSeparatorComponent={() => <View style={styles.sectionGap} />}
+      />
+      <AttractionSheet attraction={selected} onClose={() => setSelected(null)} onLogVisit={logVisit} />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ebe2d9", // Updated background color
+  safe: { flex: 1, backgroundColor: colors.bg },
+  content: { paddingHorizontal: space.lg, paddingBottom: space.xxl },
+  intro: { paddingTop: space.xl, paddingBottom: space.sm },
+  title: type.title,
+  lede: { ...type.body, color: colors.muted, marginTop: space.xs },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.bg,
+    paddingVertical: space.md,
   },
-
-  header: {
-    textAlign: 'center',
-    fontSize: 14,
-    marginTop: 20,
-    fontWeight: '500'
+  pill: { minWidth: 72, height: 24, paddingHorizontal: space.sm, borderRadius: radius.pill, alignItems: "center", justifyContent: "center" },
+  pillText: { fontFamily: fonts.semibold, fontSize: 12, lineHeight: 16, color: colors.onPrimary },
+  sectionTitle: { ...type.heading, fontSize: 16, lineHeight: 24, marginLeft: space.sm, flex: 1 },
+  sectionCount: { fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.muted },
+  sectionGap: { height: space.sm },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 72,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.card,
+    paddingVertical: space.sm,
+    paddingHorizontal: space.md,
   },
-
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  modalView: {
-    margin: 20,
-    backgroundColor: '#F5F1ED',
-    borderRadius: 20,
-    padding: 10,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
- 
+  rowPressed: { opacity: 0.85 },
+  rank: { width: 24, fontFamily: fonts.semibold, fontSize: 14, lineHeight: 20, color: colors.muted },
+  thumb: { width: 56, height: 56, borderRadius: radius.card },
+  rowText: { flex: 1, marginHorizontal: space.md },
+  name: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 24, color: colors.ink },
+  area: { fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.muted },
+  chevron: { marginLeft: space.sm },
+  separator: { height: space.sm },
 });

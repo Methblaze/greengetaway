@@ -34,6 +34,11 @@ const TAB_ICON = {
   Profile: "person",
 };
 
+// Visible tab labels, where they differ from the route name.
+const TAB_LABEL = {
+  Leaderboard: "Ranking",
+};
+
 const tabBarIcon = (iconName) => ({ focused, size, color }) => (
   <Ionicons name={focused ? iconName : `${iconName}-outline`} size={size} color={color} />
 );
@@ -62,9 +67,10 @@ const createScreenOptions = ({ route }) => {
     },
     tabBarLabel: ({ focused, color }) => (
       <Text style={{ fontSize: 12, lineHeight: 16, fontFamily: focused ? fonts.semibold : fonts.regular, color }}>
-        {route.name}
+        {TAB_LABEL[route.name] || route.name}
       </Text>
     ),
+    tabBarAccessibilityLabel: TAB_LABEL[route.name] || route.name,
     // 2023 header, kept on the screens that have not been redesigned yet.
     headerRight: () => (
       <TouchableOpacity onPress={onLogout} style={{ marginRight: 10 }}>
@@ -109,7 +115,7 @@ export const AppNavigator = () => (
         </View>
       )
     }} />
-    <Tab.Screen name="Leaderboard" component={Leaderboard}/>
+    <Tab.Screen name="Leaderboard" component={Leaderboard} options={{ headerShown: false }}/>
     <Tab.Screen name="Profile" component={ProfileScreen} />
   </Tab.Navigator>
 );
