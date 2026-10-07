@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GreenGetaway, sustainable tourist guide to Copenhagen</title>
-<meta name="description" content="GreenGetaway, a React Native app for finding sustainable attractions in Copenhagen, running in the browser from the original Expo code.">
+<meta name="description" content="GreenGetaway, a React Native app for finding sustainable attractions in Copenhagen. Built in 2023, redesigned in 2026, with both versions running in the browser.">
 <link rel="icon" href="app/favicon.ico">
 <style>
   :root {
     --page: #F4F1EC;
     --card: #FFFFFF;
     --ink: #1B1F1C;
-    --muted: #6A706B;
+    --muted: #5C665F;
     --line: #E2DDD5;
-    --green: #688A6F;
+    --green: #466350; /* primary: white on it 6.6:1, 6.0:1 on the page (was #688A6F, 3.85:1) */
     --beige: #EBE2D9;
     --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
@@ -39,48 +39,42 @@
              line-height: 1.7; max-width: 52ch; }
   ul.facts li::before { content: "·"; color: var(--green); font-weight: 700; margin-right: 8px; }
 
-  /* Phone frame */
-  .phone { width: 392px; height: 820px; border-radius: 52px; padding: 12px; background: #141614;
-           box-shadow: 0 30px 60px rgba(27,31,28,.18), 0 2px 6px rgba(27,31,28,.12); position: relative; }
-  .phone::before { content: ""; position: absolute; top: 20px; left: 50%; width: 110px; height: 26px;
-                   margin-left: -55px; border-radius: 20px; background: #141614; z-index: 2; }
-  .phone iframe { width: 100%; height: 100%; border: 0; border-radius: 40px; background: var(--beige);
-                  display: block; }
+  /* The phone frame and the 2023/2026 toggle live in compare.html, so the
+     portfolio embed and this page share one implementation. */
+  .compare { width: 420px; height: 900px; border: 0; display: block; max-width: 100%; }
   footer { grid-column: 1 / -1; font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 8px; }
 
   @media (max-width: 900px) {
     .wrap { grid-template-columns: 1fr; gap: 32px; }
-    .phone { margin: 0 auto; }
+    .compare { margin: 0 auto; }
   }
   @media (max-width: 440px) {
-    .phone { width: 100%; height: 760px; border-radius: 40px; padding: 8px; }
-    .phone iframe { border-radius: 32px; }
+    .compare { width: 100%; height: 840px; }
   }
 </style>
 </head>
 <body>
 <main class="wrap">
   <section>
-    <p class="eyebrow">React Native &middot; Expo &middot; ITU</p>
+    <p class="eyebrow">React Native &middot; Expo &middot; 2023 and 2026</p>
     <h1>GreenGetaway</h1>
     <p class="lede">A sustainable tourist guide to Copenhagen. Find the greenest attractions on a map, see how each one scores, and log the places you visit with a photo.</p>
-    <p class="note"><strong>Demo.</strong> This is the original app's code running in the browser. Log in or sign up with anything, or with nothing at all, to get in. The map, the leaderboard and the add flow all work. Location and the camera only ask for permission when you use them.</p>
+    <p class="note"><strong>Compare.</strong> Switch between the 2023 course app and the 2026 redesign above the phone. Both are the real apps running in the browser. Log in with any email and password. Location and the camera only ask for permission when you use them.</p>
     <div class="links">
-      <a class="btn primary" href="app/" target="_blank" rel="noopener">Open full screen</a>
+      <a class="btn primary" href="app/" target="_blank" rel="noopener">Open the 2026 app</a>
+      <a class="btn" href="2023/" target="_blank" rel="noopener">Open the 2023 app</a>
       <a class="btn" href="REPO_URL" target="_blank" rel="noopener">View the code</a>
     </div>
     <ul class="facts">
-      <li>Built with React Native and Expo for the course Programming Mobile Applications</li>
-      <li>On the web, the native map is replaced by Leaflet, showing the same attractions and pins</li>
-      <li>Sign-in is skipped in this demo, so no account or data is stored</li>
+      <li>Built with React Native and Expo for the course Programming Mobile Applications at ITU in 2023</li>
+      <li>Audited and redesigned in 2026: eco score bands with a legend, score pins, a ranked list of all 13 places, and visits saved as one record each</li>
+      <li>On the web, the native map is replaced by Leaflet, and sign-in is skipped, so no account or data is stored</li>
     </ul>
   </section>
 
-  <div class="phone">
-    <iframe src="app/" title="GreenGetaway app" allow="geolocation; camera" loading="eager"></iframe>
-  </div>
+  <iframe class="compare" src="compare.html" title="GreenGetaway 2023 and 2026 compared" allow="geolocation; camera"></iframe>
 
-  <footer>Map data &copy; OpenStreetMap contributors and CARTO, imagery &copy; Esri. Attraction photos belong to their original sources.</footer>
+  <footer>Map data &copy; OpenStreetMap contributors, imagery and labels &copy; Esri. Attraction photos belong to their original sources.</footer>
 </main>
 </body>
 </html>

@@ -29,10 +29,12 @@ if (nav.includes(before)) {
   nav = nav.replace(before, after);
   fs.writeFileSync(navPath, nav);
   console.log("app.navigator.js: added missing Platform import");
-} else if (nav.includes(after)) {
+} else if (nav.includes(after) || /import \{[^}]*\bPlatform\b[^}]*\} from "react-native"/.test(nav)) {
   console.log("app.navigator.js: Platform import already present");
+} else if (!/\bPlatform\./.test(nav)) {
+  console.log("app.navigator.js: Platform not used, nothing to patch");
 } else {
-  throw new Error("app.navigator.js import line not found, check by hand");
+  throw new Error("app.navigator.js uses Platform without importing it, check by hand");
 }
 
 // 3. Add.js imports the community date picker directly, which renders nothing
@@ -48,6 +50,10 @@ if (addSrc.includes(pickerBefore)) {
   console.log("Add.js: date picker now imported through components/datePicker");
 } else if (addSrc.includes(pickerAfter)) {
   console.log("Add.js: date picker import already patched");
+} else if (!addSrc.includes("@react-native-community/datetimepicker")) {
+  // The 2026 Add screen uses components/form/DateField, which has its own
+  // .web.js version, so there is no direct import left to redirect.
+  console.log("Add.js: no direct date picker import, nothing to patch");
 } else {
-  throw new Error("Add.js date picker import not found, check by hand");
+  throw new Error("Add.js imports the date picker in an unexpected way, check by hand");
 }

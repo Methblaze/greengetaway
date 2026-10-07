@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GreenGetaway 2023 and 2026</title>
+<meta name="description" content="GreenGetaway compared: the 2023 course app and the 2026 redesign, in one phone frame with a toggle.">
+<link rel="icon" href="app/favicon.ico">
+<style>
+  /* Made to be embedded: no header, and a transparent background so it sits
+     cleanly inside a portfolio section. */
+  :root {
+    --ink: #1F2A22;
+    --muted: #5C665F;
+    --line: #E2DBD2;
+    --field: #848D86;
+    --surface: #FFFFFF;
+    --primary: #466350;
+    --bg: #F7F3EE;
+    --font: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: transparent; color: var(--ink); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  /* Sized to fit the 420 by 900 embed without scrolling: 4 + 54 (toggle) +
+     12 + 810 (phone) + 16 = 896. */
+  html, body { overflow: hidden; }
+  body { display: flex; flex-direction: column; align-items: center; padding: 4px 8px 16px; }
+
+  /* Segmented control. Each button is 44px tall. Pressed is filled primary
+     (white on it is 6.6:1), unpressed is ink on white (16:1). */
+  .toggle { display: inline-flex; padding: 4px; margin: 0 0 12px; border: 1px solid var(--field); border-radius: 999px; background: var(--surface); }
+  .toggle button { min-width: 96px; height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: transparent;
+                   color: var(--ink); font: 600 16px/1 var(--font); cursor: pointer; }
+  .toggle button[aria-pressed="true"] { background: var(--primary); color: #fff; }
+  .toggle button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  /* Phone frame, as on the 2023 showcase page, 10px shorter and with a
+     tighter shadow, so neither is clipped by the edges of the embed. */
+  .phone { width: 392px; height: 810px; border-radius: 52px; padding: 12px; background: #141614;
+           box-shadow: 0 8px 14px rgba(27,31,28,.14), 0 1px 3px rgba(27,31,28,.12); position: relative; flex: none; }
+  .phone::before { content: ""; position: absolute; top: 20px; left: 50%; width: 110px; height: 26px;
+                   margin-left: -55px; border-radius: 20px; background: #141614; z-index: 3; }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 40px; overflow: hidden; background: var(--bg); }
+  .screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: var(--bg); }
+  .screen .v2026 { z-index: 1; }
+
+  /* The wiper blade, drawn only while the sweep runs. It pivots at the
+     bottom centre, like a windscreen wiper. */
+  .blade { position: absolute; left: 50%; bottom: 0; width: 3px; height: 200%; margin-left: -1.5px; z-index: 2;
+           transform-origin: 50% 100%; background: var(--surface); box-shadow: 0 0 0 1px rgba(31,42,34,.35), 0 0 12px rgba(31,42,34,.25);
+           opacity: 0; pointer-events: none; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  @media (max-width: 440px) {
+    .phone { width: 100%; height: 760px; border-radius: 40px; padding: 8px; }
+    .screen { border-radius: 32px; }
+  }
+</style>
+</head>
+<body>
+  <div class="toggle" role="group" aria-label="App version">
+    <button type="button" data-version="2023" aria-pressed="false">2023</button>
+    <button type="button" data-version="2026" aria-pressed="true">2026</button>
+  </div>
+
+  <div class="phone">
+    <div class="screen" id="screen">
+      <iframe class="v2023" src="2023/" title="GreenGetaway, 2023 version" allow="geolocation; camera" loading="lazy" inert></iframe>
+      <iframe class="v2026" src="app/" title="GreenGetaway, 2026 redesign" allow="geolocation; camera" loading="lazy"></iframe>
+      <div class="blade" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <p class="sr-only" aria-live="polite" id="status">Showing the 2026 redesign</p>
+
+<script>
+(() => {
+  const screen = document.getElementById("screen");
+  const top = screen.querySelector(".v2026");
+  const under = screen.querySelector(".v2023");
+  const blade = screen.querySelector(".blade");
+  const status = document.getElementById("status");
+  const buttons = [...document.querySelectorAll(".toggle button")];
+  const DURATION = 1600;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  // The sweep angle runs from 0 (blade lying flat to the left: all of 2026
+  // shows) through 90 (upright) to 180 (flat to the right: all of 2023).
+  let angle = 0;
+  let frame = null;
+
+  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  // The part of the 2026 app not yet swept: the pivot, the point where the
+  // blade meets the edge, then every corner past the blade, clockwise.
+  const clipFor = (deg) => {
+    const w = screen.clientWidth, h = screen.clientHeight;
+    const px = w / 2, py = h;
+    if (deg <= 0) return "none";
+    if (deg >= 180) return "polygon(0 0, 0 0, 0 0)";
+    const a = (deg * Math.PI) / 180;
+    const dx = -Math.cos(a), dy = -Math.sin(a);
+    // Where the blade's ray leaves the screen.
+    const ts = [];
+    if (dx < 0) ts.push(-px / dx);
+    if (dx > 0) ts.push((w - px) / dx);
+    if (dy < 0) ts.push(-py / dy);
+    const t = Math.min(...ts);
+    const edge = [px + dx * t, py + dy * t];
+    const angleOf = ([x, y]) => (Math.atan2(py - y, px - x) * 180) / Math.PI;
+    const corners = [[0, h], [0, 0], [w, 0], [w, h]].filter((c) => angleOf(c) > deg);
+    const pts = [[px, py], edge, ...corners];
+    return "polygon(" + pts.map(([x, y]) => `${x.toFixed(1)}px ${y.toFixed(1)}px`).join(", ") + ")";
+  };
+
+  const draw = (deg) => {
+    angle = deg;
+    top.style.clipPath = clipFor(deg);
+    blade.style.transform = `rotate(${deg - 90}deg)`;
+  };
+
+  const settle = (version) => {
+    // Only the version on show can be reached by keyboard or screen reader.
+    top.inert = version === "2023";
+    under.inert = version === "2026";
+    blade.style.opacity = 0;
+    status.textContent = version === "2026" ? "Showing the 2026 redesign" : "Showing the 2023 version";
+  };
+
+  const show = (version) => {
+    buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.version === version)));
+    const target = version === "2023" ? 180 : 0;
+    if (frame) cancelAnimationFrame(frame);
+    if (reduced.matches || angle === target) {
+      draw(target);
+      settle(version);
+      return;
+    }
+    const from = angle;
+    const start = performance.now();
+    blade.style.opacity = 1;
+    // Both apps stay interactive-free while the blade crosses them.
+    top.inert = under.inert = true;
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / (DURATION * Math.abs(target - from) / 180));
+      draw(from + (target - from) * easeInOut(t));
+      if (t < 1) frame = requestAnimationFrame(step);
+      else {
+        frame = null;
+        settle(version);
+      }
+    };
+    frame = requestAnimationFrame(step);
+  };
+
+  buttons.forEach((b) => b.addEventListener("click", () => show(b.dataset.version)));
+  // Keep the clip in pixels correct if the frame changes size.
+  window.addEventListener("resize", () => draw(angle));
+
+  // ?v=2023 opens on the 2023 version, for links and screenshots.
+  const start = new URLSearchParams(location.search).get("v") === "2023" ? "2023" : "2026";
+  buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.version === start)));
+  draw(start === "2023" ? 180 : 0);
+  settle(start);
+})();
+</script>
+</body>
+</html>

@@ -9,8 +9,6 @@ export const CameraContextProvider = ({ children }) => {
     const [hasPermission, setHasPermission] = useState(false);
     const [camera, setCamera] = useState(null);
     const [type, setType] = useState(CameraType.front);
-    const [uri, setUri] = useState(null);
-    const [photoList, setPhotoList] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -25,23 +23,21 @@ export const CameraContextProvider = ({ children }) => {
         setType(newType);
     };
 
+    // Returns the saved photo, or null if no photo was taken (no permission,
+    // or a browser camera that has not delivered a frame yet), so the
+    // caller can attach the photo to the visit being logged.
     const snapAndSave = async () => {
         try {
-            if (hasPermission) {
-            let asset = await snapAndSavePhoto(camera);
-            setPhotoList((prevList) => [... prevList, {uri: asset.uri}]);
-            }
+            if (!hasPermission || !camera) return null;
+            return await snapAndSavePhoto(camera);
         } catch (e) {
-            console.error("error in snapAndSave: ", e);
+            console.warn("No photo taken: ", e && e.message);
+            return null;
         }
     };
 
-    const resetPhotoList = () => {
-        setPhotoList([]);
-    };
-
     return (
-        <CameraContext.Provider value={{ type, photoList, setCamera, toggleCamera, snapAndSave, resetPhotoList }}>
+        <CameraContext.Provider value={{ type, setCamera, toggleCamera, snapAndSave }}>
         {children}
         </CameraContext.Provider>
     );
