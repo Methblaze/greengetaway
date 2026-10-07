@@ -21,7 +21,7 @@ export const AttractionSheet = ({ attraction, onClose, onLogVisit }) => {
       {a && (
         <>
           <Text style={styles.area}>{a.area}</Text>
-          <AttractionImage uri={a.images[0]} alt={`Photo of ${a.name}`} style={styles.photo} />
+          <AttractionImage key={a.id} sources={a.images} alt={`Photo of ${a.name}`} style={styles.photo} />
           <ScoreBadge score={a.score} showLabel style={styles.score} />
           <View style={styles.addressRow}>
             <Ionicons name="location-outline" size={20} color={colors.muted} />

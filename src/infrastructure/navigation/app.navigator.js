@@ -87,7 +87,8 @@ const createScreenOptions = ({ route }) => {
 export const AppNavigator = () => (
   <Tab.Navigator screenOptions={createScreenOptions}>
     <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-    <Tab.Screen name="Map" component={Map} />
+    {/* Full-bleed map: no header repeating the tab name, controls float. */}
+    <Tab.Screen name="Map" component={Map} options={{ headerShown: false }} />
     <Tab.Screen name="Add" component={AddStack} options={{
       tabBarAccessibilityLabel: "Add",
       tabBarIcon: () => (

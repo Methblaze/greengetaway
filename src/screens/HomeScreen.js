@@ -24,7 +24,7 @@ const PickCard = ({ attraction, onPress }) => {
       accessibilityLabel={`${attraction.name}, ${attraction.area}, eco score ${attraction.score}, ${band.label.toLowerCase()}`}
       style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
     >
-      <AttractionImage uri={attraction.images[0]} style={styles.cardImage} />
+      <AttractionImage sources={attraction.images} style={styles.cardImage} />
       <View style={styles.cardBody}>
         <Text style={styles.cardName} numberOfLines={2}>
           {attraction.name}
