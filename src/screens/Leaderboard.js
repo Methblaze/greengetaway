@@ -11,6 +11,7 @@ import { colors, fonts, radius, space, type } from "../theme/tokens";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
 import { AttractionImage } from "../components/ui/AttractionImage";
 import { AttractionSheet } from "../components/AttractionSheet";
+import { LogoutButton } from "../components/LogoutButton";
 
 // Ties share a rank (1, 1, 3, ...), so equal scores are not shown as better
 // or worse than each other.
@@ -74,9 +75,12 @@ export const Leaderboard = ({ navigation }) => {
         contentContainerStyle={styles.content}
         ListHeaderComponent={
           <View style={styles.intro}>
-            <Text style={styles.title} accessibilityRole="header">
-              Ranked by eco score
-            </Text>
+            <View style={styles.titleRow}>
+              <Text style={styles.title} accessibilityRole="header">
+                Ranked by eco score
+              </Text>
+              <LogoutButton />
+            </View>
             <Text style={styles.lede}>All 13 places, from the lowest impact to the highest.</Text>
           </View>
         }
@@ -94,7 +98,8 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
   content: { paddingHorizontal: space.lg, paddingBottom: space.xxl },
   intro: { paddingTop: space.xl, paddingBottom: space.sm },
-  title: type.title,
+  titleRow: { flexDirection: "row", alignItems: "center" },
+  title: { ...type.title, flex: 1, marginRight: space.md },
   lede: { ...type.body, color: colors.muted, marginTop: space.xs },
   sectionHeader: {
     flexDirection: "row",

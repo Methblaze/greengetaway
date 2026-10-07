@@ -1,5 +1,6 @@
-// Primary is the filled green action. Secondary is a quiet text button in the
-// same green. Both are at least 44 points tall.
+// Primary is the filled green action. Outline is a clear but secondary action
+// (a white button with a 3:1 border). Secondary is a quiet text button in the
+// same green. All are at least 44 points tall.
 import React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,7 +18,7 @@ export const Button = ({ title, onPress, variant = "primary", icon, disabled = f
       accessibilityHint={accessibilityHint}
       style={({ pressed }) => [
         styles.base,
-        primary ? styles.primary : styles.secondary,
+        primary ? styles.primary : variant === "outline" ? styles.outline : styles.secondary,
         disabled && styles.disabled,
         pressed && !disabled && styles.pressed,
         style,
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   primary: { backgroundColor: colors.primary },
+  outline: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.field },
   secondary: { backgroundColor: "transparent", minHeight: touch },
   // Disabled keeps white on green legible (WCAG exempts disabled controls,
   // but the label still has to be readable to explain why it is off).

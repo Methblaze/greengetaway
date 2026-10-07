@@ -141,7 +141,7 @@ export const ProfileScreen = ({ navigation }) => {
         renderItem={({ item }) => <VisitCard visit={item} onPress={() => setSelected(getAttraction(item.attractionId))} />}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         ListFooterComponent={
-          <Button title="Log out" variant="secondary" icon="log-out-outline" onPress={onLogout} style={styles.logout} />
+          <Button title="Log out" variant="outline" icon="log-out-outline" onPress={onLogout} style={styles.logout} />
         }
       />
       <AttractionSheet attraction={selected} onClose={() => setSelected(null)} onLogVisit={logVisit} />
@@ -203,5 +203,5 @@ const styles = StyleSheet.create({
   emptyTitle: { ...type.heading, marginTop: space.md },
   emptyText: { ...type.body, color: colors.muted, textAlign: "center", marginTop: space.xs },
   emptyButton: { marginTop: space.lg, alignSelf: "stretch" },
-  logout: { marginTop: space.xl, alignSelf: "center" },
+  logout: { marginTop: space.xl },
 });

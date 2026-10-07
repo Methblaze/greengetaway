@@ -14,6 +14,7 @@ import { Field } from "../components/form/Field";
 import { AttractionPicker } from "../components/form/AttractionPicker";
 import { DateField } from "../components/form/DateField";
 import { Button } from "../components/ui/Button";
+import { LogoutButton } from "../components/LogoutButton";
 
 export const Add = ({ navigation, route }) => {
   const { draft, updateDraft, saveDraft } = useVisits();
@@ -40,9 +41,12 @@ export const Add = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title} accessibilityRole="header">
-          Log a visit
-        </Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title} accessibilityRole="header">
+            Log a visit
+          </Text>
+          <LogoutButton />
+        </View>
         <Text style={styles.lede}>Keep track of the green places you have been.</Text>
 
         <Field label="Attraction" labelId="visit-attraction-label">
@@ -87,7 +91,8 @@ export const Add = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
   content: { paddingHorizontal: space.lg, paddingTop: space.xl, paddingBottom: space.xxl },
-  title: type.title,
+  titleRow: { flexDirection: "row", alignItems: "center" },
+  title: { ...type.title, flex: 1, marginRight: space.md },
   lede: { ...type.body, color: colors.muted, marginTop: space.xs },
   photoButton: {
     alignSelf: "flex-start",

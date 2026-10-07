@@ -12,6 +12,7 @@ import { AttractionImage } from "../components/ui/AttractionImage";
 import { Button } from "../components/ui/Button";
 import { ScoreLegend } from "../components/ScoreLegend";
 import { AttractionSheet } from "../components/AttractionSheet";
+import { LogoutButton } from "../components/LogoutButton";
 
 const PICKS = RANKED.slice(0, 3);
 
@@ -56,6 +57,7 @@ export const HomeScreen = ({ navigation }) => {
             <Text style={styles.title} accessibilityRole="header">
               GreenGetaway
             </Text>
+            <LogoutButton />
           </View>
           <Text style={styles.lede}>Find the greenest things to do in Copenhagen and keep track of where you've been.</Text>
         </View>
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
   intro: { marginBottom: space.xl },
   brandRow: { flexDirection: "row", alignItems: "center", marginBottom: space.md },
   logo: { width: 32, height: 32, marginRight: space.sm },
-  title: type.title,
+  title: { ...type.title, flex: 1 },
   lede: { ...type.body, color: colors.ink },
   heading: { ...type.heading, marginTop: space.lg, marginBottom: space.md },
   picks: { gap: space.md },
