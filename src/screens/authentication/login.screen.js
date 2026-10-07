@@ -1,106 +1,108 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Image,
-} from "react-native";
-import { useState, useContext } from "react";
-import { TouchableOpacity } from "react-native";
+// In 2023 the placeholders gave instructions ("Write your email here"), the
+// Login button was a small 100 wide pill, the title was brand green on beige
+// at 3.01:1, and "Sign Up" was default blue. Errors were stored but never
+// shown.
+import React, { useContext, useRef, useState } from "react";
+import { View, Text, Image, ScrollView, KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import { friendlyAuthError } from "../../services/authentication/friendlyError";
+import { colors, fonts, space, type } from "../../theme/tokens";
+import { TextField } from "../../components/form/TextField";
+import { Button } from "../../components/ui/Button";
+import { DemoNote } from "../../components/DemoNote";
+
+export const AuthLayout = ({ title, children }) => (
+  <SafeAreaView style={styles.safe}>
+    <KeyboardAvoidingView style={styles.safe} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <View style={styles.form}>
+          <View style={styles.brandRow}>
+            <Image source={require("../../../assets/Logo.png")} style={styles.logo} accessibilityIgnoresInvertColors />
+            <Text style={styles.brand}>GreenGetaway</Text>
+          </View>
+          <Text style={styles.title} accessibilityRole="header">
+            {title}
+          </Text>
+          {children}
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  </SafeAreaView>
+);
+
+export const ErrorText = ({ error }) => {
+  const message = friendlyAuthError(error);
+  if (!message) return null;
+  return (
+    <Text style={styles.error} accessibilityLiveRegion="polite" aria-live="polite" role="alert">
+      {message}
+    </Text>
+  );
+};
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { onLogin, isLoading, error } = useContext(AuthenticationContext);
+  const { onLogin, isLoading, error, clearError } = useContext(AuthenticationContext);
+  const passwordRef = useRef(null);
 
+  const submit = () => onLogin(email, password);
+  // The error lives in the shared auth context, so clear it on the way out
+  // or Register would show Login's message.
+  const goToRegister = () => {
+    clearError();
+    navigation.navigate("Register");
+  };
 
   return (
-    <View style={styles.container}>
-      <Image
-          source={require('../../../assets/Logo.png')}
-          style={{width: 100, height: 100, marginTop: 117}}
-        />
-      <Text style={{fontSize: 32, color: "#688A6F",fontWeight: "700", marginTop: 50, marginBottom: 50}}>Log in</Text>
-
-      <View>
-      <Text style={{marginBottom: 10}}>E-mail</Text>
-      <TextInput
-        style={styles.input}
-        label="E-mail"
+    <AuthLayout title="Log in">
+      <DemoNote style={styles.demo} />
+      <TextField
+        id="login-email"
+        label="Email"
         value={email}
-        placeholder="Write your email here"
-        textContentType="emailAddress"
+        onChangeText={setEmail}
+        placeholder="name@example.com"
         keyboardType="email-address"
+        inputMode="email"
+        textContentType="emailAddress"
+        autoComplete="email"
         autoCapitalize="none"
-        onChangeText={(user) => setEmail(user)}
+        autoCorrect={false}
+        returnKeyType="next"
+        onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
       />
-
-       <Text style={{marginBottom: 10}}>Password</Text>
-       <TextInput
-        style={styles.input}
+      <TextField
+        ref={passwordRef}
+        id="login-password"
         label="Password"
         value={password}
-        placeholder="type your password here"
-        textContentType="password"
+        onChangeText={setPassword}
         secureTextEntry
+        textContentType="password"
+        autoComplete="current-password"
         autoCapitalize="none"
-        onChangeText={(pass) => setPassword(pass)}
+        returnKeyType="go"
+        onSubmitEditing={submit}
       />
-
-      <Pressable style={styles.nav_button} onPress={() => onLogin(email, password)}>
-        <Text style={{ color: "white", fontWeight: "800" }}>Login</Text>
-      </Pressable>
-
-      <View style={styles.signUpContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={styles.text}>
-              Not a user?{" "}
-              <Text style={styles.sign}>Sign Up</Text>
-            </Text>
-      </TouchableOpacity>
-      </View>
-      </View>
-    </View>
+      <ErrorText error={error} />
+      <Button title={isLoading ? "Logging in…" : "Log in"} onPress={submit} disabled={isLoading} style={styles.primary} />
+      <Button title="Create an account" variant="secondary" onPress={goToRegister} style={styles.secondary} />
+    </AuthLayout>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ebe2d9",
-    alignItems: "center",
-  },
-
-  nav_button: {
-    backgroundColor: "#688A6F",
-    width: 100,
-    marginLeft: 70,
-    height: 37,
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    color: "white",
-    marginTop: 20
-  },
-  input: {
-    backgroundColor: "white",
-    width: 256,
-    height: 51,
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    marginBottom: 20
-  },
-
-  signUpContainer:{
-    alignItems: "center",
-    marginTop: 10
-  },
-
-  sign:{
-    color: "#005BFF",
-    textDecorationLine: "underline"
-  }
+  safe: { flex: 1, backgroundColor: colors.bg },
+  content: { flexGrow: 1, justifyContent: "center", paddingHorizontal: space.lg, paddingVertical: space.xxl },
+  form: { width: "100%", maxWidth: 400, alignSelf: "center" },
+  brandRow: { flexDirection: "row", alignItems: "center" },
+  logo: { width: 32, height: 32, marginRight: space.sm },
+  brand: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 24, color: colors.ink },
+  title: { ...type.title, marginTop: space.xl },
+  demo: { marginTop: space.lg },
+  error: { fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.band.high, marginTop: space.md },
+  primary: { marginTop: space.xl },
+  secondary: { marginTop: space.sm },
 });

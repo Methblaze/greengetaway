@@ -41,6 +41,7 @@ export const AuthenticationContextProvider = ({ children }) => {
         onLogin,
         onRegister,
         onLogout,
+        clearError: () => setError(null),
       }}
     >
       {children}

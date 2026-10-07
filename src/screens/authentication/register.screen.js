@@ -1,124 +1,84 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TextInput,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
-import { useState, useContext } from "react";
+// Matches the login screen: visible labels, no instructions in placeholders,
+// a full-width primary action, and a way back in the brand's accessible green.
+import React, { useContext, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import { space } from "../../theme/tokens";
+import { TextField } from "../../components/form/TextField";
+import { Button } from "../../components/ui/Button";
+import { DemoNote } from "../../components/DemoNote";
+import { AuthLayout, ErrorText } from "./login.screen";
 
 export const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
-  const { onRegister, isLoading, error } = useContext(AuthenticationContext);
+  const { onRegister, isLoading, error, clearError } = useContext(AuthenticationContext);
+  const passwordRef = useRef(null);
+  const repeatRef = useRef(null);
+
+  const submit = () => onRegister(email, password, repeatedPassword);
+  // The error lives in the shared auth context, so clear it on the way out
+  // or Login would show Register's message.
+  const goToLogin = () => {
+    clearError();
+    navigation.navigate("Login");
+  };
 
   return (
-    <View style={styles.container}>
-
-      <Image
-          source={require('../../../assets/Logo.png')}
-          style={{width: 100, height: 100, marginTop: 117}}
-      />
-      <Text style={{fontSize: 32, color: "#688A6F",fontWeight: "700", marginTop: 50, marginBottom: 50}}>Sign Up</Text>
-      
-      <View>
-      <Text style={{marginBottom: 10}}>E-mail</Text>
-      <TextInput
-        style={styles.input}
-        label="E-mail"
+    <AuthLayout title="Create an account">
+      <DemoNote style={styles.demo} />
+      <TextField
+        id="register-email"
+        label="Email"
         value={email}
-        placeholder="type your email here"
-        textContentType="emailAddress"
+        onChangeText={setEmail}
+        placeholder="name@example.com"
         keyboardType="email-address"
+        inputMode="email"
+        textContentType="emailAddress"
+        autoComplete="email"
         autoCapitalize="none"
-        onChangeText={(user) => setEmail(user)}
+        autoCorrect={false}
+        returnKeyType="next"
+        onSubmitEditing={() => passwordRef.current && passwordRef.current.focus()}
       />
-
-      <Text style={{marginBottom: 10}}>Password</Text>
-       <TextInput
-        style={styles.input}
+      <TextField
+        ref={passwordRef}
+        id="register-password"
         label="Password"
         value={password}
-        placeholder="type your password here"
-        textContentType="password"
+        onChangeText={setPassword}
+        placeholder="At least 6 characters"
         secureTextEntry
+        textContentType="newPassword"
+        autoComplete="new-password"
         autoCapitalize="none"
-        onChangeText={(pass) => setPassword(pass)}
+        returnKeyType="next"
+        onSubmitEditing={() => repeatRef.current && repeatRef.current.focus()}
       />
-
-      <Text style={{marginBottom: 10}}>Repeat password</Text>
-      <TextInput
-        style={styles.input}
-        label="Repeat Password"
+      <TextField
+        ref={repeatRef}
+        id="register-repeat"
+        label="Repeat password"
         value={repeatedPassword}
-        placeholder="repeat your password here"
-        textContentType="password"
+        onChangeText={setRepeatedPassword}
         secureTextEntry
+        textContentType="newPassword"
+        autoComplete="new-password"
         autoCapitalize="none"
-        onChangeText={(pass) => setRepeatedPassword(pass)}
+        returnKeyType="go"
+        onSubmitEditing={submit}
       />
-      <Pressable style={styles.nav_button} onPress={() => onRegister(email, password, repeatedPassword)}>
-        <Text style={{ color: "white", fontWeight: "800" }}>Sign Up</Text>
-      </Pressable>
-
-      <View style={styles.signUpContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.text}>
-              Already a user?{" "}
-              <Text style={styles.sign}>Log in</Text>
-            </Text>
-      </TouchableOpacity>
-      </View>
-      </View>
-    </View>
+      <ErrorText error={error} />
+      <Button title={isLoading ? "Creating your account…" : "Create account"} onPress={submit} disabled={isLoading} style={styles.primary} />
+      <Button title="I already have an account" variant="secondary" onPress={goToLogin} style={styles.secondary} />
+    </AuthLayout>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ebe2d9",
-    alignItems: "center",
-  },
-  image: {
-    width: 300,
-    height: 300,
-    marginBottom: 20,
-  },
-  nav_button: {
-    backgroundColor: "#688A6F",
-    width: 100,
-    marginLeft: 70,
-    height: 37,
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    color: "white",
-    marginTop: 20
-  },
-  input: {
-    backgroundColor: "white",
-    width: 256,
-    height: 51,
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    marginBottom: 20
-  },
-
-  sign:{
-    color: "#005BFF",
-    textDecorationLine: "underline",
-  },
-
-  
-  signUpContainer:{
-    alignItems: "center",
-    marginTop: 10
-  },
-
+  demo: { marginTop: space.lg },
+  primary: { marginTop: space.xl },
+  secondary: { marginTop: space.sm },
 });
