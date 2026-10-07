@@ -5,7 +5,7 @@ import { StyleSheet, View, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { ATTRACTIONS, bandFor } from "../../data/attractions";
+import { ATTRACTIONS, bandFor, pinOrder } from "../../data/attractions";
 import { colors, fonts, space } from "../../theme/tokens";
 import { AttractionSheet } from "../../components/AttractionSheet";
 import { MapLegend } from "../../components/MapLegend";
@@ -75,8 +75,7 @@ export const Map = ({ navigation }) => {
             coordinate={a.coordinates}
             onPress={() => setSelected(a)}
             tracksViewChanges={trackPins}
-            // Amber and red pins on top where pins overlap, as on the web.
-            zIndex={100 - a.score}
+            zIndex={pinOrder(a)}
             accessibilityLabel={`${a.name}, eco score ${a.score}, ${bandFor(a.score).label.toLowerCase()}`}
           >
             <Pin attraction={a} />

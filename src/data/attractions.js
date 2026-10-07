@@ -195,5 +195,12 @@ export const RANKED = [...ATTRACTIONS].sort((a, b) => b.score - a.score);
 
 export const getAttraction = (id) => ATTRACTIONS.find((a) => a.id === id);
 
+// Stacking order where map pins overlap in the city centre. Red sits above
+// amber, which sits above green, so the places worth avoiding stay visible.
+// Within a band the higher score sits on top, so the best place in a cluster
+// (Kastellet over The Little Mermaid) is the one you can tap.
+const BAND_LAYER = { low: 0, medium: 1, high: 2 };
+export const pinOrder = (a) => BAND_LAYER[a.band] * 1000 + a.score;
+
 export const directionsUrl = ({ coordinates: { latitude, longitude } }) =>
   `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;

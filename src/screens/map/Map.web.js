@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import L from "leaflet";
 
 import leafletCss from "../../web/leafletCss";
-import { ATTRACTIONS, bandFor } from "../../data/attractions";
+import { ATTRACTIONS, bandFor, pinOrder } from "../../data/attractions";
 import { colors, fonts, space, touch } from "../../theme/tokens";
 import { AttractionSheet } from "../../components/AttractionSheet";
 import { MapLegend } from "../../components/MapLegend";
@@ -116,10 +116,9 @@ export const Map = ({ navigation }) => {
         icon: pinIcon(a),
         keyboard: true,
         title: a.name,
-        // Where pins overlap in the city centre, the rarer amber and red pins
-        // sit on top. There are nine greens, so one hidden green says less
-        // than a hidden Tivoli.
-        zIndexOffset: (100 - a.score) * 10,
+        zIndexOffset: pinOrder(a),
+        // On desktop, the pin under the pointer comes to the front.
+        riseOnHover: true,
       })
         .on("click", () => setSelected(a))
         .addTo(map);
