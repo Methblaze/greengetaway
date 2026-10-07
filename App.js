@@ -14,6 +14,8 @@ import { Navigation } from "./src/infrastructure/navigation";
 import { CameraContextProvider } from "./src/services/camera/camera.context";
 import { LocationContextProvider } from "./src/services/location/location.context";
 import { SharedStateProvider } from "./src/infrastructure/navigation/SharedStateProvider";
+import { VisitsContextProvider } from "./src/services/visits/visits.context";
+import { ToastProvider } from "./src/services/toast/toast.context";
 
 
 export default function App() {
@@ -29,7 +31,11 @@ export default function App() {
         <CameraContextProvider>
           <LocationContextProvider>
             <AuthenticationContextProvider>
-              <Navigation />
+              <VisitsContextProvider>
+                <ToastProvider>
+                  <Navigation />
+                </ToastProvider>
+              </VisitsContextProvider>
             </AuthenticationContextProvider>
           </LocationContextProvider>
           </CameraContextProvider>

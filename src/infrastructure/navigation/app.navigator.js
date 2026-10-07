@@ -36,6 +36,7 @@ const TAB_ICON = {
 
 // Visible tab labels, where they differ from the route name.
 const TAB_LABEL = {
+  Add: "Log visit",
   Leaderboard: "Ranking",
 };
 
@@ -96,7 +97,8 @@ export const AppNavigator = () => (
     {/* Full-bleed map: no header repeating the tab name, controls float. */}
     <Tab.Screen name="Map" component={Map} options={{ headerShown: false }} />
     <Tab.Screen name="Add" component={AddStack} options={{
-      tabBarAccessibilityLabel: "Add",
+      headerShown: false,
+      tabBarAccessibilityLabel: "Log a visit",
       tabBarIcon: () => (
         // Primary green with a white plus: 6.6:1, where the 2023 pink and
         // white was 1.58:1.

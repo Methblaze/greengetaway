@@ -25,14 +25,18 @@ export const CameraContextProvider = ({ children }) => {
         setType(newType);
     };
 
+    // Returns the saved photo, or null if no photo was taken (no permission,
+    // or a browser camera that has not delivered a frame yet), so the
+    // caller can attach the photo to the visit being logged.
     const snapAndSave = async () => {
         try {
-            if (hasPermission) {
+            if (!hasPermission || !camera) return null;
             let asset = await snapAndSavePhoto(camera);
             setPhotoList((prevList) => [... prevList, {uri: asset.uri}]);
-            }
+            return asset;
         } catch (e) {
-            console.error("error in snapAndSave: ", e);
+            console.warn("No photo taken: ", e && e.message);
+            return null;
         }
     };
 

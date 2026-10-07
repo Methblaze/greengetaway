@@ -1,264 +1,104 @@
-import React, { useState, useContext } from "react";
+// "Log a visit" replaces the 2023 Add screen. In 2023 the attraction was free
+// text, the date was one shared value that every entry overwrote, the photo
+// went into a separate list, and there was no save step at all, so nothing
+// told the user whether anything had been recorded. Here a visit is one
+// record that is saved on purpose.
+import React, { useEffect } from "react";
+import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { getAttraction } from "../data/attractions";
+import { colors, fonts, radius, space, type } from "../theme/tokens";
+import { useVisits } from "../services/visits/visits.context";
+import { useToast } from "../services/toast/toast.context";
+import { Field } from "../components/form/Field";
+import { AttractionPicker } from "../components/form/AttractionPicker";
+import { DateField } from "../components/form/DateField";
+import { Button } from "../components/ui/Button";
 
-import { StyleSheet, Pressable, FlatList, ScrollView, Platform, Image, View, Text } from "react-native";
-import { TouchableOpacity, GestureHandlerRootView } from "react-native-gesture-handler";
-import DateTimePacker from "../components/datePicker";
-import { TextInput } from "react-native-paper";
-import GoToButton from "../components/goToButton.component";
-import { CameraContext, CameraContextProvider } from "../services/camera/camera.context";
-import { SharedState } from "../infrastructure/navigation/SharedStateProvider";
-import PhotoList from "../components/photolist.component";
+export const Add = ({ navigation, route }) => {
+  const { draft, updateDraft, saveDraft } = useVisits();
+  const { showToast } = useToast();
+  const prefill = route.params && route.params.attractionId;
 
-export const Add = ({ navigation }) => {
-  const { attractionText, setAttractionTextAndDate, date} = SharedState();
-  // const [date, setDate] = useState(new Date());
-  const [showDatePicker, setDatePicker] = useState(false);
-  const [dateInput, setDateInput] = useState('');
-  
-  const { photoList } = useContext(CameraContext);
-  
-  const handleAttractionText = (text) => {
-    setAttractionTextAndDate(text, date);
+  // "Log a visit here" on a detail sheet opens this screen with the
+  // attraction already chosen.
+  useEffect(() => {
+    if (!prefill) return;
+    updateDraft({ attractionId: prefill });
+    navigation.setParams({ attractionId: undefined });
+  }, [prefill]);
+
+  const save = () => {
+    const visit = saveDraft();
+    if (!visit) return;
+    showToast(`Visit to ${getAttraction(visit.attractionId).name} saved`);
+    navigation.navigate("Profile");
   };
 
-  {/* show visibility */}
-  const toggleDatePicker = () => {
-    setDatePicker(!showDatePicker);
-  };
+  const canSave = !!draft.attractionId;
 
-  const onChange = (event, selectedDate) => {
-    if (event.type === "set") {
-      const currentDate = selectedDate || date;
-      setDateInput(currentDate.toDateString());
-      setDatePicker(Platform.OS === "ios"); // Close the date picker on iOS
-
-      // Assuming setAttractionTextAndDate is a function that updates both text and date
-      setAttractionTextAndDate(attractionText, currentDate);
-    } else if (event.type === "dismissed") {
-      setDatePicker(false); // Close the date picker on Android
-    }
-  };
-
-  const confirmIOSDate= () => {
-    setDateInput(date.toDateString());
-    toggleDatePicker();
-  };
-
-  const showDateSpinner = () => {
-    if (showDatePicker) {
-      return (
-      Platform.OS === "ios" ? (
-        <DateTimePacker
-          style={style.dateSpinner}
-          mode="date"
-          display="spinner"
-          value={date}
-          onChange={onChange}
-          placeholderTextColor="#11182744"
-        />
-      ) : (
-        <DateTimePacker
-          style={style.dateSpinner}
-          mode="date"
-          display="spinner"
-          value={date}
-          onChange={onChange}
-          placeholderTextColor="#11182744"
-        />
-      )
-    );
-  };
-  }
-
-  const handleDatePickerPress = () => {
-    setDatePicker(true);
-  }
-
-  const goTo = () => {
-    navigation.navigate("Camera")
-  }
-  
   return (
-    <>
-      <GestureHandlerRootView style={{backgroundColor: "#ebe2d9", flex: 1}}>
-      <ScrollView>
-      <View>
-      {/* Naming attraction */}
-      <Text style={style.Atext}>Attraction</Text>
-      <TextInput style={style.Ainput}
-        placeholder="Name of attraction"
-        onChangeText={handleAttractionText}
-        value={attractionText}
-      />
+    <SafeAreaView style={styles.safe} edges={["top"]}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        <Text style={styles.title} accessibilityRole="header">
+          Log a visit
+        </Text>
+        <Text style={styles.lede}>Keep track of the green places you have been.</Text>
 
-      {/* Naming date of the visited attraction */}
-      <Text style={style.Dtext}>Date</Text>
+        <Field label="Attraction" labelId="visit-attraction-label">
+          <AttractionPicker
+            value={draft.attractionId}
+            onChange={(attractionId) => updateDraft({ attractionId })}
+            labelId="visit-attraction-label"
+          />
+        </Field>
 
-      <Pressable onPress={toggleDatePicker} style={style.datePickerContainer}>
-          <View style={{flexDirection: "row", alignItems: "center"}}> 
-            <TextInput
-            style={style.dateInput}
-            value={dateInput}
-            placeholder="Date you visited the attraction"
-            onChangeText={setDateInput}
-            editable={false}
-            onTouchStart={handleDatePickerPress} />
+        <Field label="Date" labelId="visit-date-label">
+          <DateField value={draft.date} onChange={(date) => updateDraft({ date })} labelId="visit-date-label" />
+        </Field>
 
-          </View>
-          {showDateSpinner()}
-        </Pressable>
-    
+        <Field label="Photo" hint="(optional)" labelId="visit-photo-label">
+          {draft.photoUri ? (
+            <View style={styles.photoRow}>
+              <Image source={{ uri: draft.photoUri }} style={styles.photo} accessibilityLabel="Photo for this visit" />
+              <View style={styles.photoActions}>
+                <Button title="Retake" variant="secondary" icon="camera-outline" onPress={() => navigation.navigate("Camera")} />
+                <Button title="Remove" variant="secondary" icon="trash-outline" onPress={() => updateDraft({ photoUri: null })} />
+              </View>
+            </View>
+          ) : (
+            <Button
+              title="Take a photo"
+              variant="secondary"
+              icon="camera-outline"
+              onPress={() => navigation.navigate("Camera")}
+              style={styles.photoButton}
+            />
+          )}
+        </Field>
 
-
-      {/* Cancel and Confirm button */}
-      {showDatePicker && Platform.OS === "ios" && (
-        <View style={styleButton.buttonContainer}>
-          
-          {/* Cancel button */}
-          <TouchableOpacity 
-            style={[styleButton.cancelButton, styleButton.pickerButton]} 
-            onPress={toggleDatePicker}>
-            <Text style={styleButton.buttonText}>Cancel</Text>
-          </TouchableOpacity>
-
-          {/* Confirm button */}
-          <TouchableOpacity 
-            style={[styleButton.confirmButton]} 
-            onPress={confirmIOSDate}>
-            <Text style={styleButton.buttonText}>Confirm</Text>
-          </TouchableOpacity>
-        </View>
-
-      )}
-
-      <Text style={style.Dtext}>Add a photo</Text>
-      <CameraContextProvider>
-        <View style={styleButton.photoButton}>
-          <GoToButton text={"Take a picture"} goTo={() => goTo()} buttonWidth={250} buttonHeight={50} />
-        </View>
-
-      </CameraContextProvider>
-      
-      {/* Display the taken photo */}
-      <FlatList
-        numColumns={2}
-        data={[photoList[photoList.length - 1]]}
-        renderItem={({ item }) => (
-        <View style={style.photoContainer}>
-          {item && item.uri && <Image source={{ uri: item.uri }} style={style.photo} />}
-        </View>
-      )}
-      keyExtractor={(item) => (item ? item.uri.toString() : null)}
-      contentContainerStyle={style.photoListStyle}
-    />
-    </View>
-    </ScrollView>
-    </GestureHandlerRootView>
-    </>
+        <Button title="Save visit" icon="checkmark" onPress={save} disabled={!canSave} style={styles.save} />
+        {!canSave && <Text style={styles.saveHint}>Choose an attraction to save your visit.</Text>}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
-
-const styleButton = StyleSheet.create({
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: colors.bg },
+  content: { paddingHorizontal: space.lg, paddingTop: space.xl, paddingBottom: space.xxl },
+  title: type.title,
+  lede: { ...type.body, color: colors.muted, marginTop: space.xs },
   photoButton: {
-    marginBottom: 20,
-    marginLeft: 30,
-    marginTop: -20,
-  },
-  cancelButton: {
-    fontSize: 17, 
-    color: "#688A6F",
-  },
-  pickerButton: {
-    backgroundColor: 'grey',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginLeft: -15,
-    marginBottom: 50,
-  },
-
-  buttonText: {
-    fontSize: 17,
-    color: "#fff",
-  },
-
-  confirmButton: {
-    backgroundColor: '#4CAF50',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginLeft: 10,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  }
-});
-
-
-const style = StyleSheet.create({
-  Atext: {
-    fontSize: 17, 
-    color: "#688A6F",
-    fontWeight: "700", 
-    marginTop: 50, 
-    marginBottom: 50,
-    marginLeft: 30,
-  },
-  Dtext: {
-    fontSize: 17, 
-    color: "#688A6F",
-    fontWeight: "700", 
-    marginTop: 50, 
-    marginBottom: 50,
-    marginLeft: 30,
-  },
-  Ainput: {
-    fontSize: 15,
-    height:50,
-    width:300,
-    marginTop: -40,
-    marginLeft: 30,
-    borderRadius: 4,
+    alignSelf: "flex-start",
     borderWidth: 1,
-    borderColor: "grey",
+    borderColor: colors.field,
+    backgroundColor: colors.surface,
+    minHeight: 48,
   },
-  datePickerContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    marginBottom: 20,
-  },
-  dateInput: {
-    fontSize: 15,
-    height:50,
-    width:300,
-    marginTop: -40,
-    marginLeft: 30,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: "grey",
-    placeholderTextColor: "#11182744"
-  },
-  
-  dateSpinner: {
-    height: 120,
-    marginTop: -10,
-  },
-
-  photoListStyle: {
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-  },
-  photoContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-  photo: {
-      height: 250,
-      width: 150,
-      marginBottom: 50,
-        
-  },
+  photoRow: { flexDirection: "row", alignItems: "center" },
+  photo: { width: 96, height: 96, borderRadius: radius.card, backgroundColor: colors.line },
+  photoActions: { marginLeft: space.md, alignItems: "flex-start" },
+  save: { marginTop: space.xxl },
+  saveHint: { fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.muted, marginTop: space.sm, textAlign: "center" },
 });
