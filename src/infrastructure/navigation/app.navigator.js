@@ -1,27 +1,25 @@
-import React, { useContext } from "react";
-import { Text, TouchableOpacity, View, Platform } from "react-native";
-import { Feather, Ionicons   } from "@expo/vector-icons";
+import React from "react";
+import { Text, View, Platform } from "react-native";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 
-
-import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { colors, fonts, shadow } from "../../theme/tokens";
 
 import { HomeScreen } from "../../screens/HomeScreen";
 import { Map } from "../../screens/map/Map";
 import { Leaderboard } from "../../screens/Leaderboard";
 import { ProfileScreen } from "../../screens/ProfileScreen";
-import { Add }     from "../../screens/Add";
+import { Add } from "../../screens/Add";
 import { CameraScreen } from "../../screens/camera/camera.screen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const AddStack = () => (
-  <Stack.Navigator headerMode="none" >
-    <Stack.Screen name="Add" component={Add}/>
-    <Stack.Screen name="Camera" component={CameraScreen}/>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Add" component={Add} />
+    <Stack.Screen name="Camera" component={CameraScreen} />
   </Stack.Navigator>
 );
 
@@ -44,18 +42,20 @@ const tabBarIcon = (iconName) => ({ focused, size, color }) => (
   <Ionicons name={focused ? iconName : `${iconName}-outline`} size={size} color={color} />
 );
 
+// Each screen carries its own title. In 2023 every header repeated the tab
+// name and showed a blue Logout link, so a session-ending action sat on every
+// screen. Logout now lives on Profile.
 const createScreenOptions = ({ route }) => {
+  const label = TAB_LABEL[route.name] || route.name;
   const iconName = TAB_ICON[route.name];
-  const { onLogout } = useContext(AuthenticationContext);
-
   return {
-    headerShown: true,
+    headerShown: false,
     tabBarIcon: iconName ? tabBarIcon(iconName) : undefined,
-    // Tab labels: muted is 6.0:1 and primary 6.6:1 on the white bar.
     // React Navigation switches to labels beside icons once the window is
     // 768 wide or more, which happens in a desktop browser. This is a phone
     // layout at every width, so labels always sit below the icons.
     tabBarLabelPosition: "below-icon",
+    // Tab labels: muted is 6.0:1 and primary 6.6:1 on the white bar.
     tabBarActiveTintColor: colors.primary,
     tabBarInactiveTintColor: colors.muted,
     tabBarStyle: {
@@ -67,57 +67,38 @@ const createScreenOptions = ({ route }) => {
       ...shadow,
     },
     tabBarLabel: ({ focused, color }) => (
-      <Text style={{ fontSize: 12, lineHeight: 16, fontFamily: focused ? fonts.semibold : fonts.regular, color }}>
-        {TAB_LABEL[route.name] || route.name}
-      </Text>
+      <Text style={{ fontSize: 12, lineHeight: 16, fontFamily: focused ? fonts.semibold : fonts.regular, color }}>{label}</Text>
     ),
-    tabBarAccessibilityLabel: TAB_LABEL[route.name] || route.name,
-    // 2023 header, kept on the screens that have not been redesigned yet.
-    headerRight: () => (
-      <TouchableOpacity onPress={onLogout} style={{ marginRight: 10 }}>
-        <Text style={{ color: "#2182BD" }}>Logout</Text>
-      </TouchableOpacity>
-    ),
-    headerStyle: {
-      backgroundColor: '#ebe2d9', // Set the background color of the header
-
-    },
-    headerTintColor: '#688A6F', // Set the text color of the header buttons
-    headerTitleStyle: {
-      fontSize: 25, // Set the font size of the header title
-    },
+    tabBarAccessibilityLabel: label,
   };
 };
 
-
+// Primary green with a white plus: 6.6:1, where the 2023 pink and white was
+// 1.58:1.
+const AddButton = () => (
+  <View
+    style={{
+      width: 52,
+      height: 52,
+      backgroundColor: colors.primary,
+      borderRadius: 26,
+      borderWidth: 4,
+      borderColor: colors.surface,
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: Platform.OS == "android" ? 40 : 24,
+    }}
+  >
+    <Feather name="plus" size={26} color={colors.onPrimary} />
+  </View>
+);
 
 export const AppNavigator = () => (
   <Tab.Navigator screenOptions={createScreenOptions}>
-    <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-    {/* Full-bleed map: no header repeating the tab name, controls float. */}
-    <Tab.Screen name="Map" component={Map} options={{ headerShown: false }} />
-    <Tab.Screen name="Add" component={AddStack} options={{
-      headerShown: false,
-      tabBarAccessibilityLabel: "Log a visit",
-      tabBarIcon: () => (
-        // Primary green with a white plus: 6.6:1, where the 2023 pink and
-        // white was 1.58:1.
-        <View style={{
-          width: 52,
-          height: 52,
-          backgroundColor: colors.primary,
-          borderRadius: 26,
-          borderWidth: 4,
-          borderColor: colors.surface,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: Platform.OS == "android" ? 40 : 24
-        }}>
-          <Feather name="plus" size={26} color={colors.onPrimary} />
-        </View>
-      )
-    }} />
-    <Tab.Screen name="Leaderboard" component={Leaderboard} options={{ headerShown: false }}/>
+    <Tab.Screen name="Home" component={HomeScreen} />
+    <Tab.Screen name="Map" component={Map} />
+    <Tab.Screen name="Add" component={AddStack} options={{ tabBarIcon: AddButton, tabBarAccessibilityLabel: "Log a visit" }} />
+    <Tab.Screen name="Leaderboard" component={Leaderboard} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
   </Tab.Navigator>
 );

@@ -9,8 +9,6 @@ export const CameraContextProvider = ({ children }) => {
     const [hasPermission, setHasPermission] = useState(false);
     const [camera, setCamera] = useState(null);
     const [type, setType] = useState(CameraType.front);
-    const [uri, setUri] = useState(null);
-    const [photoList, setPhotoList] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -31,21 +29,15 @@ export const CameraContextProvider = ({ children }) => {
     const snapAndSave = async () => {
         try {
             if (!hasPermission || !camera) return null;
-            let asset = await snapAndSavePhoto(camera);
-            setPhotoList((prevList) => [... prevList, {uri: asset.uri}]);
-            return asset;
+            return await snapAndSavePhoto(camera);
         } catch (e) {
             console.warn("No photo taken: ", e && e.message);
             return null;
         }
     };
 
-    const resetPhotoList = () => {
-        setPhotoList([]);
-    };
-
     return (
-        <CameraContext.Provider value={{ type, photoList, setCamera, toggleCamera, snapAndSave, resetPhotoList }}>
+        <CameraContext.Provider value={{ type, setCamera, toggleCamera, snapAndSave }}>
         {children}
         </CameraContext.Provider>
     );
