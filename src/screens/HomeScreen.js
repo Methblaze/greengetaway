@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, Pressable, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { RANKED, bandFor } from "../data/attractions";
 import { colors, fonts, radius, space, type } from "../theme/tokens";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
@@ -25,7 +26,7 @@ const PickCard = ({ attraction, onPress }) => {
     >
       <AttractionImage uri={attraction.images[0]} style={styles.cardImage} />
       <View style={styles.cardBody}>
-        <Text style={styles.cardName} numberOfLines={1}>
+        <Text style={styles.cardName} numberOfLines={2}>
           {attraction.name}
         </Text>
         <Text style={styles.cardArea} numberOfLines={1}>
@@ -33,6 +34,7 @@ const PickCard = ({ attraction, onPress }) => {
         </Text>
         <ScoreBadge score={attraction.score} size="sm" showLabel style={styles.cardScore} />
       </View>
+      <Ionicons name="chevron-forward" size={20} color={colors.muted} style={styles.chevron} />
     </Pressable>
   );
 };
@@ -61,16 +63,13 @@ export const HomeScreen = ({ navigation }) => {
         <Text style={styles.heading} accessibilityRole="header">
           Greenest picks
         </Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.picks}
-          style={styles.picksScroller}
-        >
+        {/* Stacked, not a sideways scroller: a horizontal row hid the third
+            pick from mouse users, who cannot drag-scroll it. */}
+        <View style={styles.picks}>
           {PICKS.map((a) => (
             <PickCard key={a.id} attraction={a} onPress={() => setSelected(a)} />
           ))}
-        </ScrollView>
+        </View>
 
         <Text style={styles.heading} accessibilityRole="header">
           Eco score
@@ -89,8 +88,6 @@ export const HomeScreen = ({ navigation }) => {
   );
 };
 
-const CARD_WIDTH = 176;
-
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
   content: { paddingHorizontal: space.lg, paddingTop: space.xl, paddingBottom: space.xxl },
@@ -100,20 +97,20 @@ const styles = StyleSheet.create({
   title: type.title,
   lede: { ...type.body, color: colors.ink },
   heading: { ...type.heading, marginTop: space.lg, marginBottom: space.md },
-  // The row bleeds to the screen edges so a cut-off card signals "scroll".
-  picksScroller: { marginHorizontal: -space.lg },
-  picks: { paddingHorizontal: space.lg, gap: space.md },
+  picks: { gap: space.md },
   card: {
-    width: CARD_WIDTH,
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.card,
-    overflow: "hidden",
+    padding: space.md,
   },
   cardPressed: { opacity: 0.85 },
-  cardImage: { width: "100%", height: 112 },
-  cardBody: { padding: space.md },
+  cardImage: { width: 88, height: 88, borderRadius: radius.card },
+  cardBody: { flex: 1, marginLeft: space.md },
+  chevron: { marginLeft: space.sm },
   cardName: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 24, color: colors.ink },
   cardArea: { fontFamily: fonts.regular, fontSize: 14, lineHeight: 20, color: colors.muted },
   cardScore: { marginTop: space.sm },

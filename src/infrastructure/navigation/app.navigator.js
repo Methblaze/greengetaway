@@ -46,6 +46,10 @@ const createScreenOptions = ({ route }) => {
     headerShown: true,
     tabBarIcon: iconName ? tabBarIcon(iconName) : undefined,
     // Tab labels: muted is 6.0:1 and primary 6.6:1 on the white bar.
+    // React Navigation switches to labels beside icons once the window is
+    // 768 wide or more, which happens in a desktop browser. This is a phone
+    // layout at every width, so labels always sit below the icons.
+    tabBarLabelPosition: "below-icon",
     tabBarActiveTintColor: colors.primary,
     tabBarInactiveTintColor: colors.muted,
     tabBarStyle: {
