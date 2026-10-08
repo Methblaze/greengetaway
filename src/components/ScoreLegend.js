@@ -17,7 +17,7 @@ export const ScoreLegend = ({ style }) => {
       <Pressable
         onPress={() => setOpen(true)}
         accessibilityRole="button"
-        style={({ pressed }) => [styles.link, pressed && styles.linkPressed]}
+        style={({ pressed, hovered }) => [styles.link, (hovered || pressed) && styles.linkPressed]}
       >
         <Ionicons name="information-circle-outline" size={20} color={colors.primary} />
         <Text style={styles.linkText}>How eco score works</Text>

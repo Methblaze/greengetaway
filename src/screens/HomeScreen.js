@@ -6,7 +6,7 @@ import { View, Text, Image, Pressable, ScrollView, StyleSheet } from "react-nati
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RANKED, bandFor } from "../data/attractions";
-import { colors, fonts, radius, space, type } from "../theme/tokens";
+import { colors, fonts, radius, space, type, hover } from "../theme/tokens";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
 import { AttractionImage } from "../components/ui/AttractionImage";
 import { Button } from "../components/ui/Button";
@@ -23,7 +23,7 @@ const PickCard = ({ attraction, onPress }) => {
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`${attraction.name}, ${attraction.area}, eco score ${attraction.score}, ${band.label.toLowerCase()}`}
-      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+      style={({ pressed, hovered }) => [styles.card, hovered && hover.card, pressed && styles.cardPressed]}
     >
       <AttractionImage sources={attraction.images} style={styles.cardImage} />
       <View style={styles.cardBody}>

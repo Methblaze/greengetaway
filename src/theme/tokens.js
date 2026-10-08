@@ -20,6 +20,15 @@ export const colors = {
   scrim: "rgba(31, 42, 34, 0.4)", // behind sheets, ink at 40%
 };
 
+// Hover feedback for mouse users on the web (React Native Web passes
+// "hovered" to Pressable styles; phones never set it). Only colours change,
+// never sizes or border widths, so nothing shifts on hover.
+export const hover = {
+  card: { borderColor: colors.field }, // cards and rows: the edge darkens
+  field: { borderColor: colors.ink }, // field-like buttons
+  quiet: { backgroundColor: colors.bg }, // icon and text buttons: a beige tint
+};
+
 export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };
 
 export const radius = { card: 12, sheet: 16, pill: 999 };

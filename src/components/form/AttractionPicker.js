@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RANKED, getAttraction } from "../../data/attractions";
-import { colors, fonts, radius, space, touch } from "../../theme/tokens";
+import { colors, fonts, radius, space, touch, hover } from "../../theme/tokens";
 import { Sheet } from "../ui/Sheet";
 import { ScoreBadge } from "../ui/ScoreBadge";
 import { AttractionImage } from "../ui/AttractionImage";
@@ -49,7 +49,7 @@ export const AttractionPicker = ({ value, onChange, labelId }) => {
         accessibilityRole="button"
         aria-labelledby={labelId}
         accessibilityHint={selected ? `${selected.name} chosen. Opens the list to change it.` : "Opens the list of attractions"}
-        style={({ pressed }) => [styles.trigger, selected && styles.triggerChosen, pressed && styles.pressed]}
+        style={({ pressed, hovered }) => [styles.trigger, selected && styles.triggerChosen, hovered && hover.field, pressed && styles.pressed]}
       >
         {selected ? (
           <>
@@ -103,7 +103,7 @@ export const AttractionPicker = ({ value, onChange, labelId }) => {
                 accessibilityRole="radio"
                 accessibilityState={{ checked }}
                 accessibilityLabel={`${a.name}, ${a.area}, eco score ${a.score}`}
-                style={({ pressed }) => [styles.option, checked && styles.optionChecked, pressed && styles.pressed]}
+                style={({ pressed, hovered }) => [styles.option, checked && styles.optionChecked, hovered && hover.quiet, pressed && styles.pressed]}
               >
                 <View style={styles.triggerText}>
                   <Text style={styles.name}>{a.name}</Text>

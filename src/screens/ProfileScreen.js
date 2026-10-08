@@ -8,7 +8,7 @@ import { View, Text, Image, Pressable, FlatList, StyleSheet } from "react-native
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { getAttraction, bandFor } from "../data/attractions";
-import { colors, fonts, radius, space, type } from "../theme/tokens";
+import { colors, fonts, radius, space, type, hover } from "../theme/tokens";
 import { useVisits } from "../services/visits/visits.context";
 import { AuthenticationContext } from "../services/authentication/authentication.context";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
@@ -48,7 +48,7 @@ const VisitCard = ({ visit, onPress }) => {
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`${a.name}, ${date}, eco score ${a.score}, ${bandFor(a.score).label.toLowerCase()}${visit.photoUri ? ", with your photo" : ""}`}
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+      style={({ pressed, hovered }) => [styles.card, hovered && hover.card, pressed && styles.pressed]}
     >
       {visit.photoUri ? (
         <Image source={{ uri: visit.photoUri }} style={styles.cardPhoto} />

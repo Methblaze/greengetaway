@@ -25,6 +25,11 @@ export const ECO_SCORE_EXPLAINER = {
   ],
 };
 
+// Photos are hotlinked from third-party sites, as in 2023, and shown at most
+// about 360 points wide. Each list starts with a photo that loads, uses a
+// resized rendition where the host offers one (Wikimedia 960px, Blogspot
+// s640) instead of multi-megabyte originals, and drops URLs that have died.
+// AttractionImage falls back along the list, then to a placeholder.
 const RAW = [
   {
     id: "kastellet",
@@ -34,7 +39,6 @@ const RAW = [
     address: "Gl. Hovedvagt, Kastellet 1, 2100 København",
     coordinates: { latitude: 55.69269516489231, longitude: 12.594401456560474 },
     images: [
-      "https://media.lex.dk/media/148200/standard_compressed_scanpixId20200618-192745-4",
       "https://media.lex.dk/media/148200/standard_compressed_scanpixId20200618-192745-4",
     ],
   },
@@ -46,7 +50,7 @@ const RAW = [
     address: "Øster Søgade, 1357 København",
     coordinates: { latitude: 55.68932350079579, longitude: 12.567072701450753 },
     images: [
-      "https://2.bp.blogspot.com/-shMUZ2HD4KE/Tx_hl0KfwkI/AAAAAAAAAR4/svYxIDciARA/s1600/IMG_0897.JPG",
+      "https://2.bp.blogspot.com/-shMUZ2HD4KE/Tx_hl0KfwkI/AAAAAAAAAR4/svYxIDciARA/s640/IMG_0897.JPG",
       "https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX35258857.jpg",
     ],
   },
@@ -70,8 +74,8 @@ const RAW = [
     address: "Artillerivej 73B, 2300 København",
     coordinates: { latitude: 55.65346745093697, longitude: 12.577147786658136 },
     images: [
-      "https://naturibyen.com/wp-content/uploads/2017/06/Koebenhavn_S_20120808_TH_0049_web.jpg",
       "https://media-cdn.tripadvisor.com/media/photo-s/05/bf/34/72/amager-faelled.jpg",
+      "https://naturibyen.com/wp-content/uploads/2017/06/Koebenhavn_S_20120808_TH_0049_web.jpg",
     ],
   },
   {
@@ -82,8 +86,7 @@ const RAW = [
     address: "Islands Brygge 22, 2300 København",
     coordinates: { latitude: 55.665404205576166, longitude: 12.573790195349881 },
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/b/bd/Islandsbrygge_waterfront.jpg",
-      "http://www.christianshavnernet.dk/Christianshavn/Bryggen/Islands_brygge/IMG_3910.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Islandsbrygge_waterfront.jpg/960px-Islandsbrygge_waterfront.jpg",
     ],
   },
   {
@@ -94,7 +97,6 @@ const RAW = [
     address: "Trianglen, 2100 København",
     coordinates: { latitude: 55.702300779373026, longitude: 12.567884842266832 },
     images: [
-      "https://www.kk.dk/sites/default/files/styles/hero_desktop/public/2021-05/F%C3%A6lledparken%201920x552.jpg?itok=nhfv49eP",
       "https://graenseforeningen.dk/sites/graenseforeningen.dk/files/styles/article_width_680/public/2021-08/F%C3%A6lledparken.nu_.jpg?itok=sSZx9ihY",
     ],
   },
@@ -143,7 +145,6 @@ const RAW = [
     coordinates: { latitude: 55.67253027778619, longitude: 12.521315181767763 },
     images: [
       "https://www.sciencestories.dk/sites/default/files/styles/large/public/2020-06/Zoo%20test_0.jpg?h=5c7d85c7&itok=IOQvi9CF",
-      "https://cdn.lorry.bazo.dk/images/eca5231d-2e72-4c9d-a1ff-83eb9025621a/d/4-3/s/2048",
     ],
   },
   {
@@ -154,7 +155,6 @@ const RAW = [
     address: "Ny Vestergade 10, 1471 København K",
     coordinates: { latitude: 55.67457812197257, longitude: 12.574676383616369 },
     images: [
-      "https://media.lex.dk/media/4497/standard_Nationalmuseet.jpg",
       "https://files.guidedanmark.org/files/382/172945_Nationalmuseet.jpg",
     ],
   },
@@ -166,7 +166,7 @@ const RAW = [
     address: "Jacob Fortlingsvej 1, 2770 Kastrup",
     coordinates: { latitude: 55.638610148608976, longitude: 12.655649397107624 },
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/b/ba/Den_Bl%C3%A5_Planet_%28Kastrup%29.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Den_Bl%C3%A5_Planet_%28Kastrup%29.JPG/960px-Den_Bl%C3%A5_Planet_%28Kastrup%29.JPG",
       "https://denblaaplanet.dk/wp-content/uploads/2020/08/oceantunnel-scaled.jpg",
     ],
   },
@@ -178,7 +178,6 @@ const RAW = [
     address: "Vesterbrogade 3, 1630 København V",
     coordinates: { latitude: 55.6738352545145, longitude: 12.568286556922459 },
     images: [
-      "https://files.guidedanmark.org/files/382/382_8363.jpg",
       "https://cdn.getyourguide.com/img/tour/deb003da0074a486.jpeg/99.jpg",
     ],
   },

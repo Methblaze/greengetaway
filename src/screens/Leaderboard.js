@@ -7,7 +7,7 @@ import { View, Text, Pressable, SectionList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BAND_ORDER, RANKED } from "../data/attractions";
-import { colors, fonts, radius, space, type } from "../theme/tokens";
+import { colors, fonts, radius, space, type, hover } from "../theme/tokens";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
 import { AttractionImage } from "../components/ui/AttractionImage";
 import { AttractionSheet } from "../components/AttractionSheet";
@@ -40,7 +40,7 @@ const Row = ({ item, onPress }) => (
     onPress={onPress}
     accessibilityRole="button"
     accessibilityLabel={`Rank ${item.rank}, ${item.name}, ${item.area}, eco score ${item.score}`}
-    style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+    style={({ pressed, hovered }) => [styles.row, hovered && hover.card, pressed && styles.rowPressed]}
   >
     <Text style={styles.rank}>{item.rank}</Text>
     <AttractionImage sources={item.images} style={styles.thumb} />
@@ -76,6 +76,9 @@ export const Leaderboard = ({ navigation }) => {
         sections={SECTIONS}
         keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled
+        // The first screen holds about six rows. Rendering those first means
+        // the first paint asks for six photos, not all 13.
+        initialNumToRender={6}
         contentContainerStyle={styles.content}
         ListHeaderComponent={
           <View style={styles.intro}>

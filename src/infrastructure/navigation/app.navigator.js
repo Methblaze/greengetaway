@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View, Platform } from "react-native";
-import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -90,7 +89,7 @@ const AddButton = () => (
       marginBottom: Platform.OS == "android" ? 40 : 24,
     }}
   >
-    <Feather name="plus" size={26} color={colors.onPrimary} />
+    <Ionicons name="add" size={30} color={colors.onPrimary} />
   </View>
 );
 

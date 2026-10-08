@@ -3,7 +3,7 @@
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { colors, radius, touch } from "../../theme/tokens";
+import { colors, radius, touch, hover } from "../../theme/tokens";
 
 export const IconButton = ({ icon, label, onPress, active = false, style }) => (
   <Pressable
@@ -11,7 +11,7 @@ export const IconButton = ({ icon, label, onPress, active = false, style }) => (
     accessibilityRole="button"
     accessibilityLabel={label}
     accessibilityState={{ selected: active }}
-    style={({ pressed }) => [styles.button, active && styles.active, pressed && styles.pressed, style]}
+    style={({ pressed, hovered }) => [styles.button, hovered && !active && hover.quiet, active && styles.active, pressed && styles.pressed, style]}
   >
     <Ionicons name={icon} size={22} color={active ? colors.onPrimary : colors.ink} />
   </Pressable>

@@ -15,7 +15,7 @@ Run on 7 October 2026 against the built site in `docs/`, in headless Microsoft E
 | See it in Profile | One entry, overwritten by the next | Saved as one visit with its photo: "1 visit, average eco score 99, low impact" |
 | Leaderboard | 9 rows, 9 "See details" links | 13 ranked rows, no "See details" |
 | Console errors from our own code | None | None |
-| Errors from third-party photos | None | 2 (a dead photo URL, which falls back to the second photo) |
+| Errors from third-party photos | None | None, after dead photo URLs were removed (see below) |
 
 ## Contrast
 
@@ -66,3 +66,13 @@ A review against Vercel's React best-practices rules found two oversized imports
 | DM Sans files shipped | 18 | 3 |
 
 The location context also stopped adding two event listeners on every render, a 2023 leak that grew every five seconds on a phone.
+
+## After a UI/UX Pro Max review
+
+A second review, against the UI/UX Pro Max skill's UX and React Native guidelines, led to five changes. Every check above was run again with the same results, and with no third-party photo errors left.
+
+- **Photos.** The 13 photos on Ranking now weigh 1.86 MB with no failed requests. The first photos alone used to weigh 6.8 MB, including a 3.8 MB original for a 56 point thumbnail, and three of them no longer existed. Each list now starts with a photo that loads, uses a resized rendition where the host offers one, and drops dead URLs. Ranking renders its first six rows first.
+- **Keyboard on phones.** Sheets rise with the on-screen keyboard on iOS, so the attraction search results stay visible, and a tap on a result chooses it at once. This is native behaviour and has not yet been tested on a device.
+- **Hover.** Cards, rows and buttons give hover feedback on the web through colour only: on a card, the border went from #E2DBD2 to #848D86 with its size unchanged.
+- **Wide screens.** Opened in a desktop window, the app is a centred 560 wide column, so the Home introduction runs about 64 characters a line instead of about 150. Sheets share the cap. Phones and the portfolio embed are unchanged.
+- **One icon set.** The centre button uses Ionicons like every other icon, so the Feather font left the build. The bundle is now 1,392 KB, and `docs/app/` holds 18 files.

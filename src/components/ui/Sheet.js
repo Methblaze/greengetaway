@@ -3,7 +3,7 @@
 // Escape on the web. react-native-web's Modal traps focus while open and
 // hands it back to the element that opened it (a map pin, a card) on close.
 import React, { useEffect, useRef, useState } from "react";
-import { Modal, View, Text, Pressable, ScrollView, Animated, Easing, StyleSheet, Platform } from "react-native";
+import { Modal, View, Text, Pressable, ScrollView, Animated, Easing, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, radius, shadow, space, touch, type } from "../../theme/tokens";
@@ -46,7 +46,10 @@ export const Sheet = ({ visible, onClose, title, children }) => {
 
   return (
     <Modal transparent visible animationType="none" onRequestClose={onClose} statusBarTranslucent>
-      <View style={styles.root}>
+      {/* On iOS the keyboard would cover the lower half of the sheet, hiding
+          the attraction search results, so the sheet rises with it. Android
+          resizes modal windows for the keyboard by itself. */}
+      <KeyboardAvoidingView style={styles.root} behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <Animated.View style={[StyleSheet.absoluteFill, { opacity: progress }]}>
           {/* The scrim is a mouse and touch target only. Keyboard and screen
               reader users close the sheet with the X button or Escape. */}
@@ -68,16 +71,18 @@ export const Sheet = ({ visible, onClose, title, children }) => {
               accessibilityRole="button"
               accessibilityLabel="Close"
               hitSlop={4}
-              style={({ pressed }) => [styles.close, pressed && styles.closePressed]}
+              style={({ pressed, hovered }) => [styles.close, (hovered || pressed) && styles.closePressed]}
             >
               <Ionicons name="close" size={24} color={colors.ink} />
             </Pressable>
           </View>
-          <ScrollView bounces={false} contentContainerStyle={styles.content}>
+          {/* "handled" lets a tap on a search result choose it straight away,
+              instead of the first tap only closing the keyboard. */}
+          <ScrollView bounces={false} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
             {children}
           </ScrollView>
         </Animated.View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
@@ -86,6 +91,11 @@ const styles = StyleSheet.create({
   root: { flex: 1, justifyContent: "flex-end" },
   scrim: { backgroundColor: colors.scrim },
   sheet: {
+    // Sheets open outside the app's column, so they share its width cap
+    // (see AppFrame.web.js). No effect on a phone.
+    width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
     maxHeight: "88%",
     backgroundColor: colors.surface,
     borderTopLeftRadius: radius.sheet,

@@ -10,6 +10,7 @@ import { CameraContextProvider } from "./src/services/camera/camera.context";
 import { LocationContextProvider } from "./src/services/location/location.context";
 import { VisitsContextProvider } from "./src/services/visits/visits.context";
 import { ToastProvider } from "./src/services/toast/toast.context";
+import { AppFrame } from "./src/components/AppFrame";
 
 
 // The three weights the app uses, required by file. The package's own index
@@ -29,17 +30,19 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <CameraContextProvider>
-        <LocationContextProvider>
-          <AuthenticationContextProvider>
-            <VisitsContextProvider>
-              <ToastProvider>
-                <Navigation />
-              </ToastProvider>
-            </VisitsContextProvider>
-          </AuthenticationContextProvider>
-        </LocationContextProvider>
-      </CameraContextProvider>
+      <AppFrame>
+        <CameraContextProvider>
+          <LocationContextProvider>
+            <AuthenticationContextProvider>
+              <VisitsContextProvider>
+                <ToastProvider>
+                  <Navigation />
+                </ToastProvider>
+              </VisitsContextProvider>
+            </AuthenticationContextProvider>
+          </LocationContextProvider>
+        </CameraContextProvider>
+      </AppFrame>
       <StatusBar style="dark" />
     </SafeAreaProvider>
   );
