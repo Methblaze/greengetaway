@@ -3,7 +3,7 @@
 // same green. All are at least 44 points tall.
 import React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, fonts, radius, space, touch } from "../../theme/tokens";
 
 export const Button = ({ title, onPress, variant = "primary", icon, disabled = false, style, accessibilityHint }) => {

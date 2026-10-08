@@ -1,7 +1,7 @@
 // The three eco score bands plus the way into the "How eco score works" sheet.
 import React, { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { BAND_ORDER } from "../data/attractions";
 import { colors, fonts, radius, space, touch } from "../theme/tokens";
 import { BandRow } from "./BandRow";

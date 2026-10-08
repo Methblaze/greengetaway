@@ -2,7 +2,7 @@
 // "what is this": how do I get there, and can I save that I went.
 import React from "react";
 import { View, Text, Pressable, Linking, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { bandFor, directionsUrl } from "../data/attractions";
 import { colors, fonts, radius, space, touch, type } from "../theme/tokens";
 import { Sheet } from "./ui/Sheet";

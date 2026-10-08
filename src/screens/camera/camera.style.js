@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Camera } from "expo-camera";
 
 

@@ -6,7 +6,7 @@
 import React, { useContext, useMemo, useState } from "react";
 import { View, Text, Image, Pressable, FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { getAttraction, bandFor } from "../data/attractions";
 import { colors, fonts, radius, space, type } from "../theme/tokens";
 import { useVisits } from "../services/visits/visits.context";
@@ -66,6 +66,9 @@ const VisitCard = ({ visit, onPress }) => {
     </Pressable>
   );
 };
+
+// Defined once, so the list keeps the same separator between renders.
+const CardGap = () => <View style={styles.separator} />;
 
 export const ProfileScreen = ({ navigation }) => {
   const { visits } = useVisits();
@@ -139,7 +142,7 @@ export const ProfileScreen = ({ navigation }) => {
         ListHeaderComponent={header}
         ListEmptyComponent={empty}
         renderItem={({ item }) => <VisitCard visit={item} onPress={() => setSelected(getAttraction(item.attractionId))} />}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={CardGap}
         ListFooterComponent={
           <Button title="Log out" variant="outline" icon="log-out-outline" onPress={onLogout} style={styles.logout} />
         }

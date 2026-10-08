@@ -1,7 +1,7 @@
 // Web build only. The browser demo skips Firebase, so any details get in.
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, fonts, radius, space } from "../theme/tokens";
 
 export const DemoNote = ({ style }) => (

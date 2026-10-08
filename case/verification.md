@@ -52,3 +52,17 @@ The 4.84 on the map is the map attribution line. Graphics were checked against t
 - The compare sweep takes 1.6 seconds, and is instant under reduced motion.
 - The compare page fits the 420 by 900 embed without scrolling.
 - iOS and Android bundles build with `npx expo export`. The native app has not been run on a device or simulator.
+
+## After a React best-practices review
+
+A review against Vercel's React best-practices rules found two oversized imports and a listener leak. After the fixes, every check above was run again with the same results.
+
+| | Before | After |
+| --- | --- | --- |
+| JavaScript bundle | 1,704 KB | 1,400 KB |
+| Files in `docs/app/` | 78 | 20 |
+| Size of `docs/app/` | 9.6 MB | 2.5 MB |
+| Icon sets shipped | 16 | 2 (Ionicons and Feather) |
+| DM Sans files shipped | 18 | 3 |
+
+The location context also stopped adding two event listeners on every render, a 2023 leak that grew every five seconds on a phone.

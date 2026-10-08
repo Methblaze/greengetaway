@@ -2,7 +2,7 @@
 // free text, so a typo created a new place and nothing linked to the data.
 import React, { useMemo, useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { RANKED, getAttraction } from "../../data/attractions";
 import { colors, fonts, radius, space, touch } from "../../theme/tokens";
 import { Sheet } from "../ui/Sheet";

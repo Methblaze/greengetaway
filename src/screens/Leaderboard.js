@@ -2,10 +2,10 @@
 // showed only the nine green places under "the most green activities", with
 // a vague "See details" link on each row. Here every row is one tap target,
 // and the low scorers stay visible, because knowing what to avoid helps too.
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, Pressable, SectionList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { BAND_ORDER, RANKED } from "../data/attractions";
 import { colors, fonts, radius, space, type } from "../theme/tokens";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
@@ -57,9 +57,13 @@ const Row = ({ item, onPress }) => (
   </Pressable>
 );
 
+// Defined once, so the list keeps the same separator components between
+// renders instead of remounting new ones each time.
+const RowGap = () => <View style={styles.separator} />;
+const SectionGap = () => <View style={styles.sectionGap} />;
+
 export const Leaderboard = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
-  const sections = useMemo(() => SECTIONS, []);
 
   const logVisit = (a) => {
     setSelected(null);
@@ -69,7 +73,7 @@ export const Leaderboard = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <SectionList
-        sections={sections}
+        sections={SECTIONS}
         keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled
         contentContainerStyle={styles.content}
@@ -86,8 +90,8 @@ export const Leaderboard = ({ navigation }) => {
         }
         renderSectionHeader={({ section }) => <SectionHeader band={section.band} count={section.data.length} />}
         renderItem={({ item }) => <Row item={item} onPress={() => setSelected(item)} />}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        SectionSeparatorComponent={() => <View style={styles.sectionGap} />}
+        ItemSeparatorComponent={RowGap}
+        SectionSeparatorComponent={SectionGap}
       />
       <AttractionSheet attraction={selected} onClose={() => setSelected(null)} onLogVisit={logVisit} />
     </SafeAreaView>

@@ -2,7 +2,7 @@
 // button's edge at 3:1 or more against light map tiles.
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, radius, touch } from "../../theme/tokens";
 
 export const IconButton = ({ icon, label, onPress, active = false, style }) => (
