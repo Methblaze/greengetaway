@@ -20,7 +20,12 @@ const appOut = path.join(docs, "app");
 const baseline = path.join(docs, "2023");
 const repoUrl = process.argv[2] || "https://github.com/";
 
-if (!fs.existsSync(dist)) throw new Error("dist/ not found, run the export first");
+// Check the export is complete before anything in docs/ is touched. A failed
+// export can leave empty dist/assets and dist/bundles folders behind, and
+// copying those would replace the live app with nothing.
+if (!fs.existsSync(path.join(dist, "index.html"))) throw new Error("dist/index.html not found, the export did not finish. docs/ was not changed.");
+const distBundles = fs.existsSync(path.join(dist, "bundles")) ? fs.readdirSync(path.join(dist, "bundles")).filter((n) => n.endsWith(".js")) : [];
+if (distBundles.length !== 1) throw new Error(`expected one bundle in dist/bundles, found ${distBundles.length}. docs/ was not changed.`);
 
 const walk = (dir) =>
   fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
