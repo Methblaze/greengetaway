@@ -25,7 +25,7 @@ In the browser, sign-in is a demo: any email and password work, and nothing is s
 - **Your visits** shows a summary and the visit history, with Log out at the bottom.
 - **Contrast and type.** Every text and colour pair passes WCAG 2.2, from design tokens in `src/theme/tokens.js`, with DM Sans throughout.
 
-The full case, with the audit numbers, is in [`case/greengetaway-case.md`](case/greengetaway-case.md), and the checks run before release are in [`case/verification.md`](case/verification.md).
+How I approached the redesign, and the decisions behind it, is in [`PROCESS.md`](PROCESS.md). The full case, with the audit numbers, is in [`case/greengetaway-case.md`](case/greengetaway-case.md), and the checks run before release are in [`case/verification.md`](case/verification.md).
 
 ## How the code is organised
 
