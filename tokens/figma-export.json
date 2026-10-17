@@ -1,0 +1,202 @@
+{
+ "exportedAt": "2026-10-17",
+ "collections": {
+  "Green · Primitives · Colour": {
+   "modes": [
+    "Value"
+   ],
+   "vars": {
+    "color/white": {
+     "Value": "#FFFFFF"
+    },
+    "color/sand/100": {
+     "Value": "#F7F3EE"
+    },
+    "color/sand/300": {
+     "Value": "#E2DBD2"
+    },
+    "color/stone/500": {
+     "Value": "#848D86"
+    },
+    "color/stone/600": {
+     "Value": "#5C665F"
+    },
+    "color/forest/500": {
+     "Value": "#688A6F"
+    },
+    "color/forest/700": {
+     "Value": "#466350"
+    },
+    "color/forest/900": {
+     "Value": "#1F2A22"
+    },
+    "color/leaf/700": {
+     "Value": "#2F6B3F"
+    },
+    "color/amber/700": {
+     "Value": "#B45309"
+    },
+    "color/red/700": {
+     "Value": "#B42318"
+    },
+    "color/scrim": {
+     "Value": "#1F2A2266"
+    }
+   }
+  },
+  "Green · Primitives · Size": {
+   "modes": [
+    "Value"
+   ],
+   "vars": {
+    "size/space/xs": {
+     "Value": 4
+    },
+    "size/space/sm": {
+     "Value": 8
+    },
+    "size/space/md": {
+     "Value": 12
+    },
+    "size/space/lg": {
+     "Value": 16
+    },
+    "size/space/xl": {
+     "Value": 24
+    },
+    "size/space/xxl": {
+     "Value": 32
+    },
+    "size/radius/card": {
+     "Value": 12
+    },
+    "size/radius/sheet": {
+     "Value": 16
+    },
+    "size/radius/pill": {
+     "Value": 999
+    },
+    "size/touch": {
+     "Value": 44
+    }
+   }
+  },
+  "Green · Primitives · Type": {
+   "modes": [
+    "Value"
+   ],
+   "vars": {
+    "font/family/sans": {
+     "Value": "DM Sans"
+    },
+    "font/weight/regular": {
+     "Value": 400
+    },
+    "font/weight/medium": {
+     "Value": 500
+    },
+    "font/weight/semibold": {
+     "Value": 600
+    },
+    "font/size/12": {
+     "Value": 12
+    },
+    "font/size/14": {
+     "Value": 14
+    },
+    "font/size/16": {
+     "Value": 16
+    },
+    "font/size/20": {
+     "Value": 20
+    },
+    "font/size/28": {
+     "Value": 28
+    },
+    "font/line-height/16": {
+     "Value": 16
+    },
+    "font/line-height/20": {
+     "Value": 20
+    },
+    "font/line-height/24": {
+     "Value": 24
+    },
+    "font/line-height/26": {
+     "Value": 26
+    },
+    "font/line-height/34": {
+     "Value": 34
+    }
+   }
+  },
+  "Green · Theme": {
+   "modes": [
+    "Light"
+   ],
+   "vars": {
+    "color/bg/canvas": {
+     "Light": "{color/sand/100}"
+    },
+    "color/bg/surface": {
+     "Light": "{color/white}"
+    },
+    "color/bg/scrim": {
+     "Light": "{color/scrim}"
+    },
+    "color/text/primary": {
+     "Light": "{color/forest/900}"
+    },
+    "color/text/secondary": {
+     "Light": "{color/stone/600}"
+    },
+    "color/text/on-accent": {
+     "Light": "{color/white}"
+    },
+    "color/border/subtle": {
+     "Light": "{color/sand/300}"
+    },
+    "color/border/control": {
+     "Light": "{color/stone/500}"
+    },
+    "color/accent/default": {
+     "Light": "{color/forest/700}"
+    },
+    "color/brand/default": {
+     "Light": "{color/forest/500}"
+    },
+    "color/eco/low": {
+     "Light": "{color/leaf/700}"
+    },
+    "color/eco/medium": {
+     "Light": "{color/amber/700}"
+    },
+    "color/eco/high": {
+     "Light": "{color/red/700}"
+    }
+   }
+  }
+ },
+ "text": {
+  "Green/Title": {
+   "fontSize": 28,
+   "lineHeight": 34
+  },
+  "Green/Heading": {
+   "fontSize": 20,
+   "lineHeight": 26
+  },
+  "Green/Body": {
+   "fontSize": 16,
+   "lineHeight": 24
+  },
+  "Green/Label": {
+   "fontSize": 14,
+   "lineHeight": 20
+  },
+  "Green/Caption": {
+   "fontSize": 12,
+   "lineHeight": 16
+  }
+ }
+}
