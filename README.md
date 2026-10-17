@@ -23,14 +23,14 @@ In the browser, sign-in is a demo: any email and password work, and nothing is s
 - **Ranking** lists all 13 places, not only the nine green ones, with one tap target per row.
 - **Log a visit** saves one record per visit: an attraction chosen from the list, a date and an optional photo. In 2023 each entry overwrote the last.
 - **Your visits** shows a summary and the visit history, with Log out at the bottom.
-- **Contrast and type.** Every text and colour pair passes WCAG 2.2, from design tokens in `src/theme/tokens.js`, with DM Sans throughout.
+- **Contrast and type.** Every text and colour pair passes WCAG 2.2, from one set of design tokens shared with Figma, with DM Sans throughout. The design system page is at [/greengetaway/design-system/](https://methblaze.github.io/greengetaway/design-system/).
 
 How I approached the redesign, and the decisions behind it, is in [`PROCESS.md`](PROCESS.md). The full case, with the audit numbers, is in [`case/greengetaway-case.md`](case/greengetaway-case.md), and the checks run before release are in [`case/verification.md`](case/verification.md).
 
 ## How the code is organised
 
 - `src/data/attractions.js` is the one list of the 13 attractions, their scores, bands and the eco score copy. Every screen reads from it.
-- `src/theme/tokens.js` holds every colour, spacing step, radius and type style.
+- `tokens/` is the design system: one DTCG source for every colour, spacing step, radius, type style and shadow. `src/theme/tokens.js` reads it for the app. `npm run tokens:build` also writes the Figma sync input and the design system page in `docs/design-system/`; `npm run tokens:check` proves contrast, names and that the [Figma page](https://www.figma.com/design/OiWVRsdT5PoiNMdZ3eYxmd/DIGI---GREEN-DESIGN-SYSTEM---TOKENS?node-id=1-2) still matches.
 - `src/screens/` has the five tabs and sign-in. `src/components/` has the shared pieces, such as the bottom sheet, score badge and form fields.
 - `src/services/visits/` holds the visits, and `src/services/toast/` the app-wide confirmation message.
 - Files ending in `.web.js` are used only in the browser build. For example, `Map.web.js` draws the map with Leaflet, because react-native-maps has no browser version, and `authentication.context.web.js` replaces Firebase sign-in with the demo login.

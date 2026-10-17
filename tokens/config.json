@@ -21,10 +21,43 @@
     ]
   },
   "preview": {
-    "title": "GreenGetaway 2026 tokens",
-    "lead": "One light theme; screens use only these values.",
+    "title": "GreenGetaway 2026 design system",
+    "lead": "The tokens and components behind the 2026 redesign: a warm sand canvas, forest greens and three eco-score bands, in one light theme.",
     "fontsUrl": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap",
-    "bodyFont": "'DM Sans', system-ui, sans-serif"
+    "bodyFont": "'DM Sans', system-ui, sans-serif",
+    "intro": "I rebuilt GreenGetaway in 2026 and moved its design values into one token source, so the React Native app and the Figma file are made from the same numbers.",
+    "headingFont": "'DM Sans', system-ui, sans-serif",
+    "links": [
+      {
+        "label": "Open in Figma",
+        "href": "https://www.figma.com/design/OiWVRsdT5PoiNMdZ3eYxmd/DIGI---GREEN-DESIGN-SYSTEM---TOKENS?node-id=1-2"
+      },
+      {
+        "label": "Token source on GitHub",
+        "href": "https://github.com/Methblaze/Greengetaway/tree/main/tokens"
+      },
+      {
+        "label": "Back to GreenGetaway",
+        "href": "../"
+      }
+    ],
+    "components": [
+      {
+        "name": "Button",
+        "use": "Primary, Outline and Secondary, each with hover, pressed and disabled. At least 44 px tall (ui/Button.js)."
+      },
+      {
+        "name": "Icon button",
+        "use": "A 44 px square for map controls, with a control border that stays at 3:1 on light map tiles (ui/IconButton.js)."
+      },
+      {
+        "name": "Score badge",
+        "use": "Colour, number and label together, so an eco band never relies on colour alone (ui/ScoreBadge.js)."
+      }
+    ],
+    "publish": [
+      "docs/design-system"
+    ]
   },
   "figma": {
     "collections": [
