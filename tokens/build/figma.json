@@ -1,0 +1,609 @@
+{
+ "collections": [
+  {
+   "name": "Green · Primitives · Colour",
+   "modes": [
+    "Value"
+   ],
+   "vars": [
+    {
+     "name": "color/white",
+     "type": "COLOR",
+     "values": {
+      "Value": "#FFFFFF"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-white"
+    },
+    {
+     "name": "color/sand/100",
+     "type": "COLOR",
+     "values": {
+      "Value": "#F7F3EE"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-sand-100"
+    },
+    {
+     "name": "color/sand/300",
+     "type": "COLOR",
+     "values": {
+      "Value": "#E2DBD2"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-sand-300"
+    },
+    {
+     "name": "color/stone/500",
+     "type": "COLOR",
+     "values": {
+      "Value": "#848D86"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-stone-500"
+    },
+    {
+     "name": "color/stone/600",
+     "type": "COLOR",
+     "values": {
+      "Value": "#5C665F"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-stone-600"
+    },
+    {
+     "name": "color/forest/500",
+     "type": "COLOR",
+     "values": {
+      "Value": "#688A6F"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-forest-500"
+    },
+    {
+     "name": "color/forest/700",
+     "type": "COLOR",
+     "values": {
+      "Value": "#466350"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-forest-700"
+    },
+    {
+     "name": "color/forest/900",
+     "type": "COLOR",
+     "values": {
+      "Value": "#1F2A22"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-forest-900"
+    },
+    {
+     "name": "color/leaf/700",
+     "type": "COLOR",
+     "values": {
+      "Value": "#2F6B3F"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-leaf-700"
+    },
+    {
+     "name": "color/amber/700",
+     "type": "COLOR",
+     "values": {
+      "Value": "#B45309"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-amber-700"
+    },
+    {
+     "name": "color/red/700",
+     "type": "COLOR",
+     "values": {
+      "Value": "#B42318"
+     },
+     "description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+     "codeSyntax": "--color-red-700"
+    },
+    {
+     "name": "color/scrim",
+     "type": "COLOR",
+     "values": {
+      "Value": "#1F2A2266"
+     },
+     "description": "forest.900 at 40 per cent, behind sheets.",
+     "codeSyntax": "--color-scrim"
+    }
+   ],
+   "scopes": null,
+   "cssPrefix": ""
+  },
+  {
+   "name": "Green · Primitives · Size",
+   "modes": [
+    "Value"
+   ],
+   "vars": [
+    {
+     "name": "size/space/xs",
+     "type": "FLOAT",
+     "values": {
+      "Value": 4
+     },
+     "description": "Spacing scale in px. md is the gap inside cards, lg the screen margin, xl the gap between sections.",
+     "codeSyntax": "--size-space-xs"
+    },
+    {
+     "name": "size/space/sm",
+     "type": "FLOAT",
+     "values": {
+      "Value": 8
+     },
+     "description": "Spacing scale in px. md is the gap inside cards, lg the screen margin, xl the gap between sections.",
+     "codeSyntax": "--size-space-sm"
+    },
+    {
+     "name": "size/space/md",
+     "type": "FLOAT",
+     "values": {
+      "Value": 12
+     },
+     "description": "Spacing scale in px. md is the gap inside cards, lg the screen margin, xl the gap between sections.",
+     "codeSyntax": "--size-space-md"
+    },
+    {
+     "name": "size/space/lg",
+     "type": "FLOAT",
+     "values": {
+      "Value": 16
+     },
+     "description": "Spacing scale in px. md is the gap inside cards, lg the screen margin, xl the gap between sections.",
+     "codeSyntax": "--size-space-lg"
+    },
+    {
+     "name": "size/space/xl",
+     "type": "FLOAT",
+     "values": {
+      "Value": 24
+     },
+     "description": "Spacing scale in px. md is the gap inside cards, lg the screen margin, xl the gap between sections.",
+     "codeSyntax": "--size-space-xl"
+    },
+    {
+     "name": "size/space/xxl",
+     "type": "FLOAT",
+     "values": {
+      "Value": 32
+     },
+     "description": "Spacing scale in px. md is the gap inside cards, lg the screen margin, xl the gap between sections.",
+     "codeSyntax": "--size-space-xxl"
+    },
+    {
+     "name": "size/radius/card",
+     "type": "FLOAT",
+     "values": {
+      "Value": 12
+     },
+     "description": "Corner radius: card for cards and fields, sheet for bottom sheets, pill for chips and pills.",
+     "codeSyntax": "--size-radius-card"
+    },
+    {
+     "name": "size/radius/sheet",
+     "type": "FLOAT",
+     "values": {
+      "Value": 16
+     },
+     "description": "Corner radius: card for cards and fields, sheet for bottom sheets, pill for chips and pills.",
+     "codeSyntax": "--size-radius-sheet"
+    },
+    {
+     "name": "size/radius/pill",
+     "type": "FLOAT",
+     "values": {
+      "Value": 999
+     },
+     "description": "Corner radius: card for cards and fields, sheet for bottom sheets, pill for chips and pills.",
+     "codeSyntax": "--size-radius-pill"
+    },
+    {
+     "name": "size/touch",
+     "type": "FLOAT",
+     "values": {
+      "Value": 44
+     },
+     "description": "Minimum touch target, WCAG 2.5.5 and both platform guidelines.",
+     "codeSyntax": "--size-touch"
+    }
+   ],
+   "scopes": null,
+   "cssPrefix": ""
+  },
+  {
+   "name": "Green · Primitives · Type",
+   "modes": [
+    "Value"
+   ],
+   "vars": [
+    {
+     "name": "font/family/sans",
+     "type": "STRING",
+     "values": {
+      "Value": "DM Sans"
+     },
+     "description": "DM Sans for everything. On native, the weight is in the font name (DMSans_600SemiBold), so fontWeight is never set on top.",
+     "codeSyntax": "--font-family-sans"
+    },
+    {
+     "name": "font/weight/regular",
+     "type": "FLOAT",
+     "values": {
+      "Value": 400
+     },
+     "description": "Font weights.",
+     "codeSyntax": "--font-weight-regular"
+    },
+    {
+     "name": "font/weight/medium",
+     "type": "FLOAT",
+     "values": {
+      "Value": 500
+     },
+     "description": "Font weights.",
+     "codeSyntax": "--font-weight-medium"
+    },
+    {
+     "name": "font/weight/semibold",
+     "type": "FLOAT",
+     "values": {
+      "Value": 600
+     },
+     "description": "Font weights.",
+     "codeSyntax": "--font-weight-semibold"
+    },
+    {
+     "name": "font/size/12",
+     "type": "FLOAT",
+     "values": {
+      "Value": 12
+     },
+     "description": "The type scale in px. Use it through a text style.",
+     "codeSyntax": "--font-size-12"
+    },
+    {
+     "name": "font/size/14",
+     "type": "FLOAT",
+     "values": {
+      "Value": 14
+     },
+     "description": "The type scale in px. Use it through a text style.",
+     "codeSyntax": "--font-size-14"
+    },
+    {
+     "name": "font/size/16",
+     "type": "FLOAT",
+     "values": {
+      "Value": 16
+     },
+     "description": "The type scale in px. Use it through a text style.",
+     "codeSyntax": "--font-size-16"
+    },
+    {
+     "name": "font/size/20",
+     "type": "FLOAT",
+     "values": {
+      "Value": 20
+     },
+     "description": "The type scale in px. Use it through a text style.",
+     "codeSyntax": "--font-size-20"
+    },
+    {
+     "name": "font/size/28",
+     "type": "FLOAT",
+     "values": {
+      "Value": 28
+     },
+     "description": "The type scale in px. Use it through a text style.",
+     "codeSyntax": "--font-size-28"
+    },
+    {
+     "name": "font/line-height/16",
+     "type": "FLOAT",
+     "values": {
+      "Value": 16
+     },
+     "description": "Line heights in px, paired with font.size.",
+     "codeSyntax": "--font-line-height-16"
+    },
+    {
+     "name": "font/line-height/20",
+     "type": "FLOAT",
+     "values": {
+      "Value": 20
+     },
+     "description": "Line heights in px, paired with font.size.",
+     "codeSyntax": "--font-line-height-20"
+    },
+    {
+     "name": "font/line-height/24",
+     "type": "FLOAT",
+     "values": {
+      "Value": 24
+     },
+     "description": "Line heights in px, paired with font.size.",
+     "codeSyntax": "--font-line-height-24"
+    },
+    {
+     "name": "font/line-height/26",
+     "type": "FLOAT",
+     "values": {
+      "Value": 26
+     },
+     "description": "Line heights in px, paired with font.size.",
+     "codeSyntax": "--font-line-height-26"
+    },
+    {
+     "name": "font/line-height/34",
+     "type": "FLOAT",
+     "values": {
+      "Value": 34
+     },
+     "description": "Line heights in px, paired with font.size.",
+     "codeSyntax": "--font-line-height-34"
+    }
+   ],
+   "scopes": null,
+   "cssPrefix": ""
+  },
+  {
+   "name": "Green · Theme",
+   "modes": [
+    "Light"
+   ],
+   "vars": [
+    {
+     "name": "color/bg/canvas",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/sand/100"
+      }
+     },
+     "description": "Screen background (colors.bg).",
+     "codeSyntax": "--color-bg-canvas"
+    },
+    {
+     "name": "color/bg/surface",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/white"
+      }
+     },
+     "description": "Cards, sheets and fields (colors.surface).",
+     "codeSyntax": "--color-bg-surface"
+    },
+    {
+     "name": "color/bg/scrim",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/scrim"
+      }
+     },
+     "description": "Behind bottom sheets (colors.scrim).",
+     "codeSyntax": "--color-bg-scrim"
+    },
+    {
+     "name": "color/text/primary",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/forest/900"
+      }
+     },
+     "description": "Headings and body text (colors.ink).",
+     "codeSyntax": "--color-text-primary"
+    },
+    {
+     "name": "color/text/secondary",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/stone/600"
+      }
+     },
+     "description": "Supporting text and captions (colors.muted).",
+     "codeSyntax": "--color-text-secondary"
+    },
+    {
+     "name": "color/text/on-accent",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/white"
+      }
+     },
+     "description": "Text and icons on accent/default (colors.onPrimary).",
+     "codeSyntax": "--color-text-on-accent"
+    },
+    {
+     "name": "color/border/subtle",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/sand/300"
+      }
+     },
+     "description": "Card edges and dividers only. Decorative at 1.2:1 (colors.line).",
+     "codeSyntax": "--color-border-subtle"
+    },
+    {
+     "name": "color/border/control",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/stone/500"
+      }
+     },
+     "description": "Edges of fields and controls, WCAG 1.4.11 (colors.field).",
+     "codeSyntax": "--color-border-control"
+    },
+    {
+     "name": "color/accent/default",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/forest/700"
+      }
+     },
+     "description": "Buttons, links and the active tab (colors.primary).",
+     "codeSyntax": "--color-accent-default"
+    },
+    {
+     "name": "color/brand/default",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/forest/500"
+      }
+     },
+     "description": "The original green: the logo and large decorative areas, never text (colors.brand).",
+     "codeSyntax": "--color-brand-default"
+    },
+    {
+     "name": "color/eco/low",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/leaf/700"
+      }
+     },
+     "description": "Eco score 80 to 100, low impact. Always with the number and a label.",
+     "codeSyntax": "--color-eco-low"
+    },
+    {
+     "name": "color/eco/medium",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/amber/700"
+      }
+     },
+     "description": "Eco score 40 to 79, medium impact. Always with the number and a label.",
+     "codeSyntax": "--color-eco-medium"
+    },
+    {
+     "name": "color/eco/high",
+     "type": "COLOR",
+     "values": {
+      "Light": {
+       "alias": "color/red/700"
+      }
+     },
+     "description": "Eco score below 40, high impact. Always with the number and a label.",
+     "codeSyntax": "--color-eco-high"
+    }
+   ],
+   "scopes": null,
+   "cssPrefix": ""
+  }
+ ],
+ "text": [
+  {
+   "name": "Green/Title",
+   "fontFamily": "DM Sans",
+   "fontWeight": 600,
+   "fontSize": 28,
+   "lineHeight": 34,
+   "letterSpacingPercent": 0,
+   "textCase": "ORIGINAL",
+   "bind": {
+    "fontFamily": "font/family/sans",
+    "fontWeight": "font/weight/semibold",
+    "fontSize": "font/size/28",
+    "lineHeight": "font/line-height/34"
+   },
+   "description": "Use for screen titles."
+  },
+  {
+   "name": "Green/Heading",
+   "fontFamily": "DM Sans",
+   "fontWeight": 600,
+   "fontSize": 20,
+   "lineHeight": 26,
+   "letterSpacingPercent": 0,
+   "textCase": "ORIGINAL",
+   "bind": {
+    "fontFamily": "font/family/sans",
+    "fontWeight": "font/weight/semibold",
+    "fontSize": "font/size/20",
+    "lineHeight": "font/line-height/26"
+   },
+   "description": "Use for card and section headings."
+  },
+  {
+   "name": "Green/Body",
+   "fontFamily": "DM Sans",
+   "fontWeight": 400,
+   "fontSize": 16,
+   "lineHeight": 24,
+   "letterSpacingPercent": 0,
+   "textCase": "ORIGINAL",
+   "bind": {
+    "fontFamily": "font/family/sans",
+    "fontWeight": "font/weight/regular",
+    "fontSize": "font/size/16",
+    "lineHeight": "font/line-height/24"
+   },
+   "description": "Use for running text and list items."
+  },
+  {
+   "name": "Green/Label",
+   "fontFamily": "DM Sans",
+   "fontWeight": 500,
+   "fontSize": 14,
+   "lineHeight": 20,
+   "letterSpacingPercent": 0,
+   "textCase": "ORIGINAL",
+   "bind": {
+    "fontFamily": "font/family/sans",
+    "fontWeight": "font/weight/medium",
+    "fontSize": "font/size/14",
+    "lineHeight": "font/line-height/20"
+   },
+   "description": "Use for buttons, chips, field labels and tabs."
+  },
+  {
+   "name": "Green/Caption",
+   "fontFamily": "DM Sans",
+   "fontWeight": 500,
+   "fontSize": 12,
+   "lineHeight": 16,
+   "letterSpacingPercent": 0,
+   "textCase": "ORIGINAL",
+   "bind": {
+    "fontFamily": "font/family/sans",
+    "fontWeight": "font/weight/medium",
+    "fontSize": "font/size/12",
+    "lineHeight": "font/line-height/16"
+   },
+   "description": "Use for metadata and hints, in text/secondary."
+  }
+ ],
+ "effects": [
+  {
+   "name": "Green/Shadow/sheet",
+   "description": "Elevation is borders first. Only sheets and the tab bar get this one shadow.",
+   "layers": [
+    {
+     "inset": false,
+     "x": 0,
+     "y": -2,
+     "blur": 16,
+     "spread": 0,
+     "color": "#1F2A221A"
+    }
+   ]
+  }
+ ]
+}
