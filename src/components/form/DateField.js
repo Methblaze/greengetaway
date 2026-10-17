@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Text, Pressable, Platform, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { colors, fonts, space } from "../../theme/tokens";
+import { colors, fonts, space, pressed as pressedStyle } from "../../theme/tokens";
 import { formatVisitDate } from "../../utils/date";
 import { fieldBox } from "./Field";
 
@@ -23,7 +23,7 @@ export const DateField = ({ value, onChange, labelId }) => {
         accessibilityRole="button"
         aria-labelledby={labelId}
         accessibilityHint="Opens the date picker"
-        style={({ pressed }) => [styles.field, pressed && styles.pressed]}
+        style={({ pressed }) => [styles.field, pressed && pressedStyle.surface]}
       >
         <Ionicons name="calendar-outline" size={20} color={colors.muted} />
         <Text style={styles.value}>{formatVisitDate(value)}</Text>
@@ -45,7 +45,6 @@ export const DateField = ({ value, onChange, labelId }) => {
 
 const styles = StyleSheet.create({
   field: { ...fieldBox, flexDirection: "row", alignItems: "center" },
-  pressed: { opacity: 0.8 },
   value: { flex: 1, marginLeft: space.sm, fontFamily: fonts.regular, fontSize: 16, lineHeight: 24, color: colors.ink },
   change: { fontFamily: fonts.semibold, fontSize: 14, lineHeight: 20, color: colors.primary, textDecorationLine: "underline" },
 });

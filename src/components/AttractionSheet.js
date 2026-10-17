@@ -4,7 +4,7 @@ import React from "react";
 import { View, Text, Pressable, Linking, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { bandFor, directionsUrl } from "../data/attractions";
-import { colors, fonts, radius, space, touch, type, hover } from "../theme/tokens";
+import { colors, fonts, radius, space, touch, type, hover, pressed as pressedStyle } from "../theme/tokens";
 import { Sheet } from "./ui/Sheet";
 import { ScoreBadge } from "./ui/ScoreBadge";
 import { AttractionImage } from "./ui/AttractionImage";
@@ -31,7 +31,7 @@ export const AttractionSheet = ({ attraction, onClose, onLogVisit }) => {
             onPress={() => Linking.openURL(directionsUrl(a))}
             accessibilityRole="link"
             accessibilityHint="Opens Google Maps"
-            style={({ pressed, hovered }) => [styles.directions, hovered && hover.quiet, pressed && styles.pressed]}
+            style={({ pressed, hovered }) => [styles.directions, hovered && hover.quiet, pressed && pressedStyle.surface]}
           >
             <Ionicons name="navigate-outline" size={20} color={colors.primary} />
             <Text style={styles.directionsText}>Get directions</Text>
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     marginTop: space.xs,
     paddingRight: space.sm,
   },
-  pressed: { opacity: 0.7 },
   directionsText: {
     fontFamily: fonts.semibold,
     fontSize: 16,

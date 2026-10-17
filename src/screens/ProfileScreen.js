@@ -8,7 +8,7 @@ import { View, Text, Image, Pressable, FlatList, StyleSheet } from "react-native
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { getAttraction, bandFor } from "../data/attractions";
-import { colors, fonts, radius, space, type, hover } from "../theme/tokens";
+import { colors, fonts, radius, space, type, hover, pressed as pressedStyle } from "../theme/tokens";
 import { useVisits } from "../services/visits/visits.context";
 import { AuthenticationContext } from "../services/authentication/authentication.context";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
@@ -48,7 +48,7 @@ const VisitCard = ({ visit, onPress }) => {
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={`${a.name}, ${date}, eco score ${a.score}, ${bandFor(a.score).label.toLowerCase()}${visit.photoUri ? ", with your photo" : ""}`}
-      style={({ pressed, hovered }) => [styles.card, hovered && hover.card, pressed && styles.pressed]}
+      style={({ pressed, hovered }) => [styles.card, hovered && hover.card, pressed && pressedStyle.surface]}
     >
       {visit.photoUri ? (
         <Image source={{ uri: visit.photoUri }} style={styles.cardPhoto} />
@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.card,
     padding: space.md,
   },
-  pressed: { opacity: 0.85 },
   cardPhoto: { width: 80, height: 80, borderRadius: radius.card, backgroundColor: colors.line },
   cardText: { flex: 1, marginHorizontal: space.md },
   cardName: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 24, color: colors.ink },

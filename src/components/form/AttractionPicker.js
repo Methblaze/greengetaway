@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RANKED, getAttraction } from "../../data/attractions";
-import { colors, fonts, radius, space, touch, hover } from "../../theme/tokens";
+import { colors, fonts, radius, space, touch, hover, pressed as pressedStyle } from "../../theme/tokens";
 import { Sheet } from "../ui/Sheet";
 import { ScoreBadge } from "../ui/ScoreBadge";
 import { AttractionImage } from "../ui/AttractionImage";
@@ -49,7 +49,7 @@ export const AttractionPicker = ({ value, onChange, labelId }) => {
         accessibilityRole="button"
         aria-labelledby={labelId}
         accessibilityHint={selected ? `${selected.name} chosen. Opens the list to change it.` : "Opens the list of attractions"}
-        style={({ pressed, hovered }) => [styles.trigger, selected && styles.triggerChosen, hovered && hover.field, pressed && styles.pressed]}
+        style={({ pressed, hovered }) => [styles.trigger, selected && styles.triggerChosen, hovered && hover.field, pressed && pressedStyle.surface]}
       >
         {selected ? (
           <>
@@ -103,7 +103,7 @@ export const AttractionPicker = ({ value, onChange, labelId }) => {
                 accessibilityRole="radio"
                 accessibilityState={{ checked }}
                 accessibilityLabel={`${a.name}, ${a.area}, eco score ${a.score}`}
-                style={({ pressed, hovered }) => [styles.option, checked && styles.optionChecked, hovered && hover.quiet, pressed && styles.pressed]}
+                style={({ pressed, hovered }) => [styles.option, checked && styles.optionChecked, hovered && hover.quiet, pressed && pressedStyle.surface]}
               >
                 <View style={styles.triggerText}>
                   <Text style={styles.name}>{a.name}</Text>
@@ -131,7 +131,6 @@ export const AttractionPicker = ({ value, onChange, labelId }) => {
 const styles = StyleSheet.create({
   trigger: { ...fieldBox, flexDirection: "row", alignItems: "center" },
   triggerChosen: { paddingLeft: space.sm, paddingVertical: space.sm },
-  pressed: { opacity: 0.8 },
   placeholder: { flex: 1, marginLeft: space.sm, fontFamily: fonts.regular, fontSize: 16, lineHeight: 24, color: colors.muted },
   thumb: { width: 48, height: 48, borderRadius: radius.card },
   triggerText: { flex: 1, marginHorizontal: space.md },

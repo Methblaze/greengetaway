@@ -7,7 +7,7 @@ import { View, Text, Pressable, SectionList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { BAND_ORDER, RANKED } from "../data/attractions";
-import { colors, fonts, radius, space, type, hover } from "../theme/tokens";
+import { colors, fonts, radius, space, type, hover, pressed as pressedStyle } from "../theme/tokens";
 import { ScoreBadge } from "../components/ui/ScoreBadge";
 import { AttractionImage } from "../components/ui/AttractionImage";
 import { AttractionSheet } from "../components/AttractionSheet";
@@ -40,7 +40,7 @@ const Row = ({ item, onPress }) => (
     onPress={onPress}
     accessibilityRole="button"
     accessibilityLabel={`Rank ${item.rank}, ${item.name}, ${item.area}, eco score ${item.score}`}
-    style={({ pressed, hovered }) => [styles.row, hovered && hover.card, pressed && styles.rowPressed]}
+    style={({ pressed, hovered }) => [styles.row, hovered && hover.card, pressed && pressedStyle.surface]}
   >
     <Text style={styles.rank}>{item.rank}</Text>
     <AttractionImage sources={item.images} style={styles.thumb} />
@@ -130,7 +130,6 @@ const styles = StyleSheet.create({
     paddingVertical: space.sm,
     paddingHorizontal: space.md,
   },
-  rowPressed: { opacity: 0.85 },
   rank: { width: 24, fontFamily: fonts.semibold, fontSize: 14, lineHeight: 20, color: colors.muted },
   thumb: { width: 56, height: 56, borderRadius: radius.card },
   rowText: { flex: 1, marginHorizontal: space.md },

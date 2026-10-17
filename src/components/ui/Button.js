@@ -4,7 +4,7 @@
 import React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { colors, fonts, radius, space, touch, hover } from "../../theme/tokens";
+import { colors, fonts, radius, space, touch, hover, pressed as pressedStyle } from "../../theme/tokens";
 
 export const Button = ({ title, onPress, variant = "primary", icon, disabled = false, style, accessibilityHint }) => {
   const primary = variant === "primary";
@@ -21,7 +21,7 @@ export const Button = ({ title, onPress, variant = "primary", icon, disabled = f
         primary ? styles.primary : variant === "outline" ? styles.outline : styles.secondary,
         hovered && !disabled && (primary ? styles.primaryHovered : hover.quiet),
         disabled && styles.disabled,
-        pressed && !disabled && styles.pressed,
+        pressed && !disabled && (primary ? pressedStyle.primary : pressedStyle.surface),
         style,
       ]}
     >
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
   // Disabled keeps white on green legible (WCAG exempts disabled controls,
   // but the label still has to be readable to explain why it is off).
   disabled: { opacity: 0.45 },
-  pressed: { opacity: 0.85 },
   content: { flexDirection: "row", alignItems: "center" },
   icon: { marginRight: space.sm },
   text: { fontFamily: fonts.semibold, fontSize: 16, lineHeight: 24 },

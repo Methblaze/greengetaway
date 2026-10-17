@@ -38,7 +38,15 @@ export const hover = {
   quiet: { backgroundColor: colors.bg }, // icon and text buttons: a beige tint
 };
 
-export const space = Object.fromEntries(Object.entries(base.size.space).map(([k, v]) => [k, num(v)]));
+// Pressed feedback. A tint and a darker edge, never opacity: opacity fades the
+// text with the control, and at 85% muted text fell to 4.3:1 and white on an eco
+// band to 3.9:1. On sand every text colour stays at 5.4:1 or better.
+export const pressed = {
+  surface: { backgroundColor: colors.bg, borderColor: colors.ink }, // cards, rows, fields, icon and text buttons
+  primary: { backgroundColor: colors.ink, borderColor: colors.ink }, // filled buttons: white on it 14.9:1
+};
+
+export const space =Object.fromEntries(Object.entries(base.size.space).map(([k, v]) => [k, num(v)]));
 
 export const radius = Object.fromEntries(Object.entries(base.size.radius).map(([k, v]) => [k, num(v)]));
 
