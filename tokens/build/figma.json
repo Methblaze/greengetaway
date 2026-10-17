@@ -589,5 +589,21 @@
    },
    "description": "Use for metadata and hints, in text/secondary."
   }
+ ],
+ "effects": [
+  {
+   "name": "Green/Shadow/sheet",
+   "description": "Elevation is borders first. Only sheets and the tab bar get this one shadow.",
+   "layers": [
+    {
+     "inset": false,
+     "x": 0,
+     "y": -2,
+     "blur": 16,
+     "spread": 0,
+     "color": "#1F2A221A"
+    }
+   ]
+  }
  ]
 }
