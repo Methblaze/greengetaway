@@ -1,0 +1,16 @@
+{
+  "$description": "Descriptions for the semantic tokens.",
+  "color.bg.canvas": "Screen background (colors.bg).",
+  "color.bg.surface": "Cards, sheets and fields (colors.surface).",
+  "color.bg.scrim": "Behind bottom sheets (colors.scrim).",
+  "color.text.primary": "Headings and body text (colors.ink).",
+  "color.text.secondary": "Supporting text and captions (colors.muted).",
+  "color.text.on-accent": "Text and icons on accent/default (colors.onPrimary).",
+  "color.border.subtle": "Card edges and dividers only. Decorative at 1.2:1 (colors.line).",
+  "color.border.control": "Edges of fields and controls, WCAG 1.4.11 (colors.field).",
+  "color.accent.default": "Buttons, links and the active tab (colors.primary).",
+  "color.brand.default": "The original green: the logo and large decorative areas, never text (colors.brand).",
+  "color.eco.low": "Eco score 80 to 100, low impact. Always with the number and a label.",
+  "color.eco.medium": "Eco score 40 to 79, medium impact. Always with the number and a label.",
+  "color.eco.high": "Eco score below 40, high impact. Always with the number and a label."
+}

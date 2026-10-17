@@ -1,0 +1,68 @@
+{
+  "color": {
+    "bg": {
+      "canvas": {
+        "$type": "color",
+        "$value": "{color.sand.100}"
+      },
+      "surface": {
+        "$type": "color",
+        "$value": "{color.white}"
+      },
+      "scrim": {
+        "$type": "color",
+        "$value": "{color.scrim}"
+      }
+    },
+    "text": {
+      "primary": {
+        "$type": "color",
+        "$value": "{color.forest.900}"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{color.stone.600}"
+      },
+      "on-accent": {
+        "$type": "color",
+        "$value": "{color.white}"
+      }
+    },
+    "border": {
+      "subtle": {
+        "$type": "color",
+        "$value": "{color.sand.300}"
+      },
+      "control": {
+        "$type": "color",
+        "$value": "{color.stone.500}"
+      }
+    },
+    "accent": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.forest.700}"
+      }
+    },
+    "brand": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.forest.500}"
+      }
+    },
+    "eco": {
+      "low": {
+        "$type": "color",
+        "$value": "{color.leaf.700}"
+      },
+      "medium": {
+        "$type": "color",
+        "$value": "{color.amber.700}"
+      },
+      "high": {
+        "$type": "color",
+        "$value": "{color.red.700}"
+      }
+    }
+  }
+}

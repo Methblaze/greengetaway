@@ -1,23 +1,32 @@
 // Design tokens for the 2026 redesign. Screens use only these values.
-// Contrast ratios are WCAG 2.2, measured against bg unless stated.
+// The values come from the design tokens in tokens/ (one DTCG source shared
+// with Figma); run `npm run tokens:build` after changing them and
+// `npm run tokens:check` to prove names, contrast and Figma drift.
+// Contrast ratios are WCAG 2.2, measured against bg unless stated, and are
+// checked on every build by tokens/checks.json.
 import { Platform } from "react-native";
+import { tokens } from "../../tokens/build/tokens";
+
+const t = tokens.themes.light.color;
+const base = tokens.base;
+const num = (v) => parseFloat(v);
 
 export const colors = {
-  bg: "#F7F3EE",
-  surface: "#FFFFFF",
-  ink: "#1F2A22", // 13.5:1
-  muted: "#5C665F", // 5.4:1, 6.0:1 on surface
-  line: "#E2DBD2", // dividers and card borders only, it is decorative at 1.2:1
-  field: "#848D86", // input and control borders, WCAG 1.4.11: 3.4:1 on surface, 3.1:1 on bg
-  primary: "#466350", // buttons, links, active tabs. White on it 6.6:1, 6.0:1 on bg
-  onPrimary: "#FFFFFF",
-  brand: "#688A6F", // the original green: logo and large decorative areas, never text
+  bg: t.bg.canvas,
+  surface: t.bg.surface,
+  ink: t.text.primary, // 13.5:1
+  muted: t.text.secondary, // 5.4:1, 6.0:1 on surface
+  line: t.border.subtle, // dividers and card borders only, it is decorative at 1.2:1
+  field: t.border.control, // input and control borders, WCAG 1.4.11: 3.4:1 on surface, 3.1:1 on bg
+  primary: t.accent.default, // buttons, links, active tabs. White on it 6.6:1, 6.0:1 on bg
+  onPrimary: t.text["on-accent"],
+  brand: t.brand.default, // the original green: logo and large decorative areas, never text
   band: {
-    low: "#2F6B3F", // white text 6.4:1
-    medium: "#B45309", // white text 5.0:1
-    high: "#B42318", // white text 6.6:1
+    low: t.eco.low, // white text 6.4:1
+    medium: t.eco.medium, // white text 5.0:1
+    high: t.eco.high, // white text 6.6:1
   },
-  scrim: "rgba(31, 42, 34, 0.4)", // behind sheets, ink at 40%
+  scrim: t.bg.scrim, // behind sheets, ink at 40%
 };
 
 // Hover feedback for mouse users on the web (React Native Web passes
@@ -29,12 +38,12 @@ export const hover = {
   quiet: { backgroundColor: colors.bg }, // icon and text buttons: a beige tint
 };
 
-export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };
+export const space = Object.fromEntries(Object.entries(base.size.space).map(([k, v]) => [k, num(v)]));
 
-export const radius = { card: 12, sheet: 16, pill: 999 };
+export const radius = Object.fromEntries(Object.entries(base.size.radius).map(([k, v]) => [k, num(v)]));
 
 // Minimum touch target, WCAG 2.5.5 and both platform guidelines.
-export const touch = 44;
+export const touch = num(base.size.touch);
 
 export const fonts = {
   regular: "DMSans_400Regular",
@@ -44,22 +53,28 @@ export const fonts = {
 
 // fontFamily carries the weight. Setting fontWeight on top of a custom font
 // makes Android fall back to the system font, so it is left out on purpose.
+const fontFor = { 400: fonts.regular, 500: fonts.medium, 600: fonts.semibold };
+const style = (name, color) => {
+  const s = base.typography[name];
+  return { fontFamily: fontFor[s.fontWeight], fontSize: num(s.fontSize), lineHeight: num(s.lineHeight), color };
+};
 export const type = {
-  title: { fontFamily: fonts.semibold, fontSize: 28, lineHeight: 34, color: colors.ink },
-  heading: { fontFamily: fonts.semibold, fontSize: 20, lineHeight: 26, color: colors.ink },
-  body: { fontFamily: fonts.regular, fontSize: 16, lineHeight: 24, color: colors.ink },
-  label: { fontFamily: fonts.medium, fontSize: 14, lineHeight: 20, color: colors.ink },
-  caption: { fontFamily: fonts.medium, fontSize: 12, lineHeight: 16, color: colors.muted },
+  title: style("title", colors.ink),
+  heading: style("heading", colors.ink),
+  body: style("body", colors.ink),
+  label: style("label", colors.ink),
+  caption: style("caption", colors.muted),
 };
 
 // Elevation is borders first. Only sheets and the tab bar get this one shadow.
+const sheet = base.shadow.sheet[0];
 export const shadow = Platform.select({
-  web: { boxShadow: "0 -2px 16px rgba(31, 42, 34, 0.10)" },
+  web: { boxShadow: `${sheet.offsetX} ${sheet.offsetY} ${sheet.blur} ${sheet.color}` },
   default: {
-    shadowColor: "#1F2A22",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowColor: sheet.color.slice(0, 7),
+    shadowOffset: { width: num(sheet.offsetX), height: num(sheet.offsetY) },
+    shadowOpacity: Math.round((parseInt(sheet.color.slice(7, 9), 16) / 255) * 100) / 100,
+    shadowRadius: num(sheet.blur) / 2,
     elevation: 8,
   },
 });

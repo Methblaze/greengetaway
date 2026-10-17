@@ -1,0 +1,72 @@
+{
+  "outputs": [
+    "js",
+    "css",
+    "tokens-studio",
+    "figma",
+    "preview"
+  ],
+  "themeOrder": [
+    "light"
+  ],
+  "themeNames": {
+    "light": "Light"
+  },
+  "codeScan": {
+    "dirs": [
+      "src"
+    ],
+    "ignore": [
+      "src/web/leafletCss.js"
+    ]
+  },
+  "preview": {
+    "title": "GreenGetaway 2026 tokens",
+    "lead": "One light theme; screens use only these values.",
+    "fontsUrl": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap",
+    "bodyFont": "'DM Sans', system-ui, sans-serif"
+  },
+  "figma": {
+    "collections": [
+      {
+        "name": "Green · Primitives · Colour",
+        "source": "base",
+        "groups": [
+          "color"
+        ],
+        "modes": [
+          "Value"
+        ]
+      },
+      {
+        "name": "Green · Primitives · Size",
+        "source": "base",
+        "groups": [
+          "size"
+        ],
+        "modes": [
+          "Value"
+        ]
+      },
+      {
+        "name": "Green · Primitives · Type",
+        "source": "base",
+        "groups": [
+          "font.family",
+          "font.weight",
+          "font.size",
+          "font.line-height"
+        ],
+        "modes": [
+          "Value"
+        ]
+      },
+      {
+        "name": "Green · Theme",
+        "source": "themes"
+      }
+    ],
+    "typography": "typography",
+    "textStylePrefix": "Green/"
+  }
+}

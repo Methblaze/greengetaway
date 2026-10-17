@@ -1,0 +1,374 @@
+{
+  "base": {
+    "$description": "GreenGetaway 2026 primitives: a warm sand canvas, forest greens and three eco-score bands.",
+    "color": {
+      "$description": "Primitive colours. Use them through a semantic color/* token; screens never use a primitive directly.",
+      "white": {
+        "$type": "color",
+        "$value": "#FFFFFF"
+      },
+      "sand": {
+        "100": {
+          "$type": "color",
+          "$value": "#F7F3EE"
+        },
+        "300": {
+          "$type": "color",
+          "$value": "#E2DBD2"
+        }
+      },
+      "stone": {
+        "500": {
+          "$type": "color",
+          "$value": "#848D86"
+        },
+        "600": {
+          "$type": "color",
+          "$value": "#5C665F"
+        }
+      },
+      "forest": {
+        "500": {
+          "$type": "color",
+          "$value": "#688A6F"
+        },
+        "700": {
+          "$type": "color",
+          "$value": "#466350"
+        },
+        "900": {
+          "$type": "color",
+          "$value": "#1F2A22"
+        }
+      },
+      "leaf": {
+        "700": {
+          "$type": "color",
+          "$value": "#2F6B3F"
+        }
+      },
+      "amber": {
+        "700": {
+          "$type": "color",
+          "$value": "#B45309"
+        }
+      },
+      "red": {
+        "700": {
+          "$type": "color",
+          "$value": "#B42318"
+        }
+      },
+      "scrim": {
+        "$type": "color",
+        "$value": "#1F2A2266",
+        "$description": "forest.900 at 40 per cent, behind sheets."
+      }
+    },
+    "size": {
+      "space": {
+        "$description": "Spacing scale in px. md is the gap inside cards, lg the screen margin, xl the gap between sections.",
+        "xs": {
+          "$type": "dimension",
+          "$value": "4px"
+        },
+        "sm": {
+          "$type": "dimension",
+          "$value": "8px"
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "12px"
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "16px"
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "24px"
+        },
+        "xxl": {
+          "$type": "dimension",
+          "$value": "32px"
+        }
+      },
+      "radius": {
+        "$description": "Corner radius: card for cards and fields, sheet for bottom sheets, pill for chips and pills.",
+        "card": {
+          "$type": "dimension",
+          "$value": "12px"
+        },
+        "sheet": {
+          "$type": "dimension",
+          "$value": "16px"
+        },
+        "pill": {
+          "$type": "dimension",
+          "$value": "999px"
+        }
+      },
+      "touch": {
+        "$type": "dimension",
+        "$value": "44px",
+        "$description": "Minimum touch target, WCAG 2.5.5 and both platform guidelines."
+      }
+    },
+    "shadow": {
+      "$description": "Elevation is borders first. Only sheets and the tab bar get this one shadow.",
+      "sheet": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "offsetX": "0px",
+            "offsetY": "-2px",
+            "blur": "16px",
+            "spread": "0px",
+            "color": "#1F2A221A"
+          }
+        ]
+      }
+    },
+    "font": {
+      "family": {
+        "sans": {
+          "$type": "fontFamily",
+          "$value": [
+            "DM Sans",
+            "system-ui",
+            "sans-serif"
+          ],
+          "$description": "DM Sans for everything. On native, the weight is in the font name (DMSans_600SemiBold), so fontWeight is never set on top."
+        }
+      },
+      "weight": {
+        "$description": "Font weights.",
+        "regular": {
+          "$type": "fontWeight",
+          "$value": 400
+        },
+        "medium": {
+          "$type": "fontWeight",
+          "$value": 500
+        },
+        "semibold": {
+          "$type": "fontWeight",
+          "$value": 600
+        }
+      },
+      "size": {
+        "12": {
+          "$type": "dimension",
+          "$value": "12px"
+        },
+        "14": {
+          "$type": "dimension",
+          "$value": "14px"
+        },
+        "16": {
+          "$type": "dimension",
+          "$value": "16px"
+        },
+        "20": {
+          "$type": "dimension",
+          "$value": "20px"
+        },
+        "28": {
+          "$type": "dimension",
+          "$value": "28px"
+        },
+        "$description": "The type scale in px. Use it through a text style."
+      },
+      "line-height": {
+        "16": {
+          "$type": "dimension",
+          "$value": "16px"
+        },
+        "20": {
+          "$type": "dimension",
+          "$value": "20px"
+        },
+        "24": {
+          "$type": "dimension",
+          "$value": "24px"
+        },
+        "26": {
+          "$type": "dimension",
+          "$value": "26px"
+        },
+        "34": {
+          "$type": "dimension",
+          "$value": "34px"
+        },
+        "$description": "Line heights in px, paired with font.size."
+      }
+    },
+    "typography": {
+      "$description": "Text styles. Screens use only these.",
+      "title": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font.size.28}",
+          "lineHeight": "{font.line-height.34}",
+          "letterSpacing": "0em"
+        },
+        "$description": "Use for screen titles.",
+        "$extensions": {
+          "figma": {
+            "name": "Title"
+          }
+        }
+      },
+      "heading": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontWeight": "{font.weight.semibold}",
+          "fontSize": "{font.size.20}",
+          "lineHeight": "{font.line-height.26}",
+          "letterSpacing": "0em"
+        },
+        "$description": "Use for card and section headings.",
+        "$extensions": {
+          "figma": {
+            "name": "Heading"
+          }
+        }
+      },
+      "body": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontWeight": "{font.weight.regular}",
+          "fontSize": "{font.size.16}",
+          "lineHeight": "{font.line-height.24}",
+          "letterSpacing": "0em"
+        },
+        "$description": "Use for running text and list items.",
+        "$extensions": {
+          "figma": {
+            "name": "Body"
+          }
+        }
+      },
+      "label": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontWeight": "{font.weight.medium}",
+          "fontSize": "{font.size.14}",
+          "lineHeight": "{font.line-height.20}",
+          "letterSpacing": "0em"
+        },
+        "$description": "Use for buttons, chips, field labels and tabs.",
+        "$extensions": {
+          "figma": {
+            "name": "Label"
+          }
+        }
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{font.family.sans}",
+          "fontWeight": "{font.weight.medium}",
+          "fontSize": "{font.size.12}",
+          "lineHeight": "{font.line-height.16}",
+          "letterSpacing": "0em"
+        },
+        "$description": "Use for metadata and hints, in text/secondary.",
+        "$extensions": {
+          "figma": {
+            "name": "Caption"
+          }
+        }
+      }
+    }
+  },
+  "themes/light": {
+    "color": {
+      "bg": {
+        "canvas": {
+          "$type": "color",
+          "$value": "{color.sand.100}"
+        },
+        "surface": {
+          "$type": "color",
+          "$value": "{color.white}"
+        },
+        "scrim": {
+          "$type": "color",
+          "$value": "{color.scrim}"
+        }
+      },
+      "text": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.forest.900}"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{color.stone.600}"
+        },
+        "on-accent": {
+          "$type": "color",
+          "$value": "{color.white}"
+        }
+      },
+      "border": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.sand.300}"
+        },
+        "control": {
+          "$type": "color",
+          "$value": "{color.stone.500}"
+        }
+      },
+      "accent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.forest.700}"
+        }
+      },
+      "brand": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.forest.500}"
+        }
+      },
+      "eco": {
+        "low": {
+          "$type": "color",
+          "$value": "{color.leaf.700}"
+        },
+        "medium": {
+          "$type": "color",
+          "$value": "{color.amber.700}"
+        },
+        "high": {
+          "$type": "color",
+          "$value": "{color.red.700}"
+        }
+      }
+    }
+  },
+  "$themes": [
+    {
+      "id": "light",
+      "name": "Light",
+      "selectedTokenSets": {
+        "base": "source",
+        "themes/light": "enabled"
+      }
+    }
+  ],
+  "$metadata": {
+    "tokenSetOrder": [
+      "base",
+      "themes/light"
+    ]
+  }
+}
